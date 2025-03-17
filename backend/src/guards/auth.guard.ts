@@ -47,7 +47,7 @@ export class AuthGuard implements CanActivate {
       if (!user?.data) {
         throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
       }
-
+      console.log('+++',user.data);
       request.user = user.data;
 
       const requiredRoles = this.reflector.getAllAndOverride<string[]>('roles', [

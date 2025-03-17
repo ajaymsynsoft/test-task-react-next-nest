@@ -3,93 +3,54 @@ import { useEffect, useState } from 'react'
 
 import { getCookie, removeCookie } from '@/utils'
 import { useReduxDispatch, useReduxSelector } from '@/hooks'
-import { setWebsiteLoader } from '@/redux/slice/layout.slice'
+import { setWebsiteLoader, updateLoggedIn } from '@/redux/slice/layout.slice'
 import { RootLayoutProps } from '@/layouts/rootLayout/RootLayout.type'
+import { useLazyProfileQuery } from '@/redux/api/user.api'
 
 export const useAuth = ({ pageType, roles }: RootLayoutProps) => {
   const router = useRouter()
   const token = getCookie('token')
   const dispatch = useReduxDispatch()
-
-  const [loading, setLoading] = useState(pageType === 'public' ? false : true)
-  const [permission, setPermission] = useState(true)
+  const [loading, setLoading] = useState(pageType === 'public' ? false : true) 
   const [error, setError] = useState(false)
+  const [getProfile] = useLazyProfileQuery()
+  const { isLoggedIn, profile } = useReduxSelector((state) => state.layout)
 
-  // const [getProfile] = useLazyGetProfileQuery()
-  // const { isLoggedIn, role, userData } = useReduxSelector((state) => state.user)
+  useEffect(() => {
+    dispatch(setWebsiteLoader(loading))
+  }, [loading])
 
-  // useEffect(() => {
-  //   dispatch(setWebsiteLoader(loading))
-  // }, [loading])
+  useEffect(() => {
+    ;(async () => {
+      try {
+        if (!token) return
+        // TODO: update it
+        const response = await getProfile(undefined, true).unwrap()       
+        dispatch(updateLoggedIn(true))
+        setLoading(false)
+      } catch (e) {
+        setError(true), setLoading(false)
+      }
+    })()
+  }, [])
 
-  // useEffect(() => {
-  //   if (token) {
-  //     getProfile(undefined, true)
-  //       .unwrap()
-  //       .catch(async (err) => {
-  //         if (err?.status === 401) {
-  //           removeCookie('token')
-  //           if (pageType !== 'auth') await router.replace('/auth/login')
-  //         } else setError(true)
-
-  //         setLoading(false)
-  //       })
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     if (!token && pageType === 'protected') await router.replace(`/auth/login?returnTo=${location.pathname}${location.search}${location.hash}`)
-  //     else if (!token) setLoading(false)
-  //     else if (token && pageType === 'auth' && isLoggedIn && (await validate())) await router.replace('/dashboard/home')
-  //     else if (pageType === 'protected' && isLoggedIn && (await validate())) {
-  //       let isPermission: boolean = true
-  //       if (roles && isPermission) isPermission = roles.includes(role)
-  //       setPermission(isPermission)
-  //       setLoading(false)
-  //     }
-  //   })()
-  // }, [router.pathname, isLoggedIn])
-
-  // const validate = async () => {
-  //   if (role === 'lawyer' && userData.status === 'pending') {
-  //     if (pageType !== 'auth') await router.push('/auth/lawyer/register')
-  //     setLoading(false)
-  //     return false
-  //   }
-
-  //   if (role === 'client' && !userData.profile.isProfileSetup && router.pathname !== '/client/onboard') {
-  //     await router.push('/client/onboard')
-  //     setLoading(false)
-  //     return false
-  //   } else if (role === 'client' && userData.profile.isProfileSetup && router.pathname === '/client/onboard') {
-  //     await router.push('/dashboard/home')
-  //     setLoading(false)
-  //     return false
-  //   }
-
-  //   if (role === 'client' && userData.status === 'verified' && router.pathname !== '/subscription') {
-  //     await router.push('/subscription')
-  //     setLoading(false)
-  //     return false
-  //   } else if (role === 'client' && userData.status !== 'verified' && router.pathname === '/subscription') {
-  //     await router.push('/dashboard/home')
-  //     setLoading(false)
-  //     return false
-  //   }
-
-  //   return true
-  // }
-
-  // return {
-  //   isLoading: loading,
-  //   isPermission: permission,
-  //   isError: error,
-  // }
+  useEffect(() => {
+    ;(async () => {
+      if (!token && pageType === 'protected') await router.replace(`/auth/login?returnTo=${location.pathname}${location.search}${location.hash}`)
+      else if (!token) setLoading(false)
+      else if (token && pageType === 'auth' && isLoggedIn) await router.replace('/admin/home')
+      else if (pageType === 'protected' && isLoggedIn) {  
+       
+        setLoading(false)
+      }
+    })()
+  }, [router.pathname, isLoggedIn]) 
 
   return {
-    isLoading: false,
+    isLoading: loading,
     isPermission: true,
-    isError: false,
+    isError: error,
   }
+
+  
 }

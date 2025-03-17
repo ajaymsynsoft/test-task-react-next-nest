@@ -6,7 +6,7 @@ export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthApiResponse, { email: string; password: string }>({
       query: (body) => ({
-        url: '/v1/Auth/login',
+        url: '/auth/adminLogin',
         method: 'POST',
         body,
         headers: { hideToast: 'true' },

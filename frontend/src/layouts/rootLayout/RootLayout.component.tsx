@@ -33,15 +33,18 @@ export default function RootLayout(props: RootLayoutProps & { children: React.Re
 
   return (
     <>
-      <Head>{title && <title>{`${title} | ilumis`}</title>}</Head>
+      <Head>{title && <title>{`${title} | Store`}</title>}</Head>
 
       {isLoading ? (
         <FullPageLoader />
       ) : (
         <ErrorBoundary error={isError}>
-          {/* {sidebar !== false && <Sidebar />} */}
+          Sidebar
+          sidebar === {JSON.stringify(sidebar)}
+          header === {JSON.stringify(header)}
+          {<Sidebar />}
           <Stack flex={1} width={contentWidth} maxWidth={1}>
-            {/* {header !== false && <Header />} */}
+            {<Header />}
             <Stack component="main" flex={1} mb={isAdminDashboard ? 4 : 0}>
               {renderChildren()}
             </Stack>

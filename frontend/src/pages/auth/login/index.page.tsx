@@ -63,10 +63,7 @@ const Login: TPage = () => {
               InputProps={{
                 endAdornment: <IconButton onClick={() => setShowPassword((v) => !v)}>{showPassword ? <MdVisibility /> : <MdVisibilityOff />}</IconButton>,
               }}
-            />
-            <MuiLink component={Link} href="/auth/forgot-password" underline="hover" sx={style.forgotPassword}>
-              Forgot Password?
-            </MuiLink>
+            />          
           </Stack>
 
           <LoadingButton variant="contained" size="large" type="submit" loading={isSubmitting}>

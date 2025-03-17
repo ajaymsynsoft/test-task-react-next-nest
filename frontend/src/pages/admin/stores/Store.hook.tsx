@@ -7,17 +7,17 @@ import { useRouter } from 'next/router'
 
 import ConfirmationPopup from '@/components/confirmationPopup/ConfirmationPopup.component'
 import { formatToTitleCase, getStatusColor } from '@/utils'
-import { StaffDTO } from '@/dto'
-import { useDeleteStaffMutation } from '@/redux/api/admin/stores.api'
+import { StoreDTO } from '@/dto'
+import { useDeleteStoreMutation } from '@/redux/api/admin/stores.api'
 import { useReduxSelector } from '@/hooks'
 
 export const useColumns = () => {
   const router = useRouter()
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
-  const [deleteStaff, { isLoading }] = useDeleteStaffMutation()
-  const { modules } = useReduxSelector((state) => state.layout.profile)
+  const [deleteStaff, { isLoading }] = useDeleteStoreMutation()
 
-  const columns: GridColDef<StaffDTO>[] = [
+
+  const columns: GridColDef<StoreDTO>[] = [
     {
       field: 'id',
       headerName: 'ID',
@@ -25,7 +25,7 @@ export const useColumns = () => {
       minWidth: 85,
       width: 85,
       renderCell: ({ row }) => (
-        <MuiLink component={Link} href={`/dashboard/staff/edit/${row.id}`}>
+        <MuiLink component={Link} href={`/admin/store/edit/${row.id}`}>
           #{row.id}
         </MuiLink>
       ),
@@ -35,37 +35,8 @@ export const useColumns = () => {
       headerName: 'Full Name',
       sortable: false,
       minWidth: 200,
-      renderCell: ({ row }) => `${row.firstName} ${row.lastName}`,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      sortable: false,
-      flex: 1,
-      minWidth: 200,
-    },
-    {
-      field: 'role',
-      headerName: 'Role',
-      sortable: false,
-      minWidth: 180,
-      renderCell: ({ row }) => formatToTitleCase(row.role!),
-    },
-    {
-      field: 'phone',
-      headerName: 'Phone',
-      sortable: false,
-      minWidth: 140,
-    },
-    {
-      field: 'status',
-      headerName: 'Status',
-      sortable: false,
-      minWidth: 100,
-      renderCell: (params) => {
-        return <Chip label={formatToTitleCase(params.value)} variant="outlined" color={getStatusColor(params.value)} />
-      },
-    },
+      renderCell: ({ row }) => `${row.name}`,
+    },    
     {
       field: 'actions',
       headerName: 'Actions',
@@ -77,26 +48,26 @@ export const useColumns = () => {
       getActions: (params) => {
         const actions = []
 
-        if (modules[2].permissions.edit) actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/dashboard/staff/edit/${params.id}`)} icon={<MdEdit />} />)
+        //  actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/dashboard/staff/edit/${params.id}`)} icon={<MdEdit />} />)
 
-        if (modules[2].permissions.delete)
-          actions.push(
-            <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
-            <ConfirmationPopup
-              key="deletePopup"
-              heading="Delete staff member"
-              subheading={`Sure to delete "${params.row.firstName + params.row.lastName}" staff member?`}
-              acceptButtonText="Delete"
-              loading={isLoading}
-              open={params.id === deleteItemId}
-              onCancel={() => setDeleteItemId(null)}
-              onAccept={() =>
-                deleteStaff(params.row.id)
-                  .unwrap()
-                  .then((_) => setDeleteItemId(null))
-              }
-            />,
-          )
+      
+        //   actions.push(
+        //     <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
+        //     <ConfirmationPopup
+        //       key="deletePopup"
+        //       heading="Delete store"
+        //       subheading={`Sure to delete "${params.row.name}" store?`}
+        //       acceptButtonText="Delete"
+        //       loading={isLoading}
+        //       open={params.id === deleteItemId}
+        //       onCancel={() => setDeleteItemId(null)}
+        //       onAccept={() =>
+        //         deleteStaff(params.row.id)
+        //           .unwrap()
+        //           .then((_) => setDeleteItemId(null))
+        //       }
+        //     />,
+        //   )
 
         return actions
       },

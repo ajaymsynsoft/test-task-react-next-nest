@@ -29,18 +29,7 @@ const Products: Page = () => {
           )
         }
       />
-      {/* <PageHeader
-        heading="Staff"
-        count={data?.totalCount}
-        actions={
-          modules[2].permissions.add && (
-            <Button href="/dashboard/staff/add" variant="contained" startIcon={<MdAdd />} LinkComponent={Link}>
-              Add Staff
-            </Button>
-          )
-        }
-      /> */}
-    
+         
       <Container>
         <RenderContent loading={isLoading} error={isError}>
           <DataGrid loading={isFetching} columns={columns} rowCount={data?.totalCount || 0} rows={data?.list || []} paginationModel={paginationModel} onPaginationModelChange={setPaginationModel} />
@@ -52,11 +41,7 @@ const Products: Page = () => {
 
 Products.rootLayoutProps = {
   title: 'Products',
-  pageType: 'protected',
-  module: {
-    id: 2,
-    permission: 'view',
-  },
+  pageType: 'protected'
 }
 
 export default Products

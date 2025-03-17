@@ -7,20 +7,20 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import InputField from '@/components/_ui/inputField/InputField.component'
-import PhoneField from '@/components/_ui/phoneField/PhoneField.component'
+
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import { TSchema, schema } from './ProductForm.config'
-import { useAddStaffMutation, useGetStaffRoleListQuery, useUpdateStaffMutation } from '@/redux/api/staff.api'
-import { StaffFormProps } from './ProductForm.type'
+import { useAddProductMutation, useUpdateProductMutation } from '@/redux/api/admin/products.api'
+import { ProductFormProps } from './ProductForm.type'
 import { formatToTitleCase } from '@/utils'
 
-export default function ProductForm({ isEditMode, data }: StaffFormProps) {
+export default function ProductForm({ isEditMode, data }: ProductFormProps) {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  const [addStaff] = useAddStaffMutation()
-  const [updateStaff] = useUpdateStaffMutation()
-  const { data: staffRoleList, isLoading, isError } = useGetStaffRoleListQuery()
+  const [addProduct] = useAddProductMutation()
+  const [updateProduct] = useUpdateProductMutation()
+  const { data: staffRoleList, isLoading, isError } = useGetStoreListQuery()
 
   const {
     handleSubmit,
@@ -41,10 +41,10 @@ export default function ProductForm({ isEditMode, data }: StaffFormProps) {
     },
   })
 
-  const onSubmit = async ({ password, ...formData }: TSchema) => {
-    if (isEditMode) await updateStaff({ ...formData, id: Number(router.query.id) }).unwrap()
-    else await addStaff({ ...formData, password: password as string }).unwrap()
-    router.push('/dashboard/staff')
+  const onSubmit = async ({ ...formData }: TSchema) => {
+    if (isEditMode) await updateProduct({ ...formData, id: Number(router.query.id) }).unwrap()
+    else await addProduct({ ...formData }).unwrap()
+    router.push('/admin/products')
   }
 
   return (
@@ -68,7 +68,7 @@ export default function ProductForm({ isEditMode, data }: StaffFormProps) {
 
           {/* Phone */}
           <Grid item xs={12} sm={6}>
-            <PhoneField name="phone" placeholder="Phone *" control={control} />
+          <InputField name="email" label="Email *" control={control} disabled={isEditMode} />
           </Grid>
 
           {/* Role */}
@@ -91,42 +91,7 @@ export default function ProductForm({ isEditMode, data }: StaffFormProps) {
                 </FormControl>
               )}
             />
-          </Grid>
-
-          {/* Status */}
-          <Grid item xs={12} sm={6}>
-            <Controller
-              name="status"
-              control={control}
-              defaultValue={'' as any}
-              render={({ fieldState: { error }, field: { ref, ...restField } }) => (
-                <FormControl error={!!error}>
-                  <InputLabel>Status *</InputLabel>
-                  <Select {...restField} inputRef={ref} label="Status *">
-                    <MenuItem value="pending">Pending</MenuItem>
-                    <MenuItem value="active">Active</MenuItem>
-                    <MenuItem value="inactive">Inactive</MenuItem>
-                  </Select>
-                  <FormHelperText>{error?.message}</FormHelperText>
-                </FormControl>
-              )}
-            />
-          </Grid>
-
-          {/* Password */}
-          {!isEditMode && (
-            <Grid item xs={12}>
-              <InputField
-                name="password"
-                label="Password *"
-                type={showPassword ? 'text' : 'password'}
-                control={control}
-                InputProps={{
-                  endAdornment: <IconButton onClick={() => setShowPassword((v) => !v)}>{showPassword ? <MdVisibility /> : <MdVisibilityOff />}</IconButton>,
-                }}
-              />
-            </Grid>
-          )}
+          </Grid>   
 
           {/* Footer */}
           <Grid item xs={12}>

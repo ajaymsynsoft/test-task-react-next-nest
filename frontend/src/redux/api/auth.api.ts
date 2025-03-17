@@ -6,7 +6,7 @@ export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<AuthApiResponse, { email: string; password: string }>({
       query: (body) => ({
-        url: '/v1/Auth/login',
+        url: '/auth/login',
         method: 'POST',
         body,
         headers: { hideToast: 'true' },
@@ -15,7 +15,7 @@ export const extendedApi = api.injectEndpoints({
 
     register: builder.mutation<AuthApiResponse, FormData>({
       query: (body) => ({
-        url: '/v1/Organization/create',
+        url: '/auth/register',
         method: 'POST',
         body,
         formData: true,

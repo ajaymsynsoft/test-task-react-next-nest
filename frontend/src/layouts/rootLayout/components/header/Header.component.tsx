@@ -17,8 +17,8 @@ export default function Header() {
 
   const dispatch = useReduxDispatch()
   const profile = useReduxSelector((state) => state.layout.profile)
-  const organization = useReduxSelector((state) => state.organization)
-  const name = profile.role === 'admin' ? organization.organizationName : `${profile.firstName} ${profile.lastName}`
+ 
+  // const name = profile.role === 'admin' ? organization.organizationName : `${profile.firstName} ${profile.lastName}`
   const isSmUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
 
   const handleCloseProfileMenu = () => {
@@ -27,6 +27,7 @@ export default function Header() {
 
   return (
     <Stack component="header" sx={style.root}>
+      Heaer 2323232323
       <Container sx={style.container}>
         {/* Logo */}
         <Stack sx={style.logoContainer}>
@@ -43,7 +44,7 @@ export default function Header() {
                 <MdNotificationsNone className="icon-xl" />
               </IconButton>
               <Divider orientation="vertical" sx={style.divider} />
-              <Stack component={ButtonBase} sx={style.profileBox} onClick={(e) => setProfileAnchorEl(e.currentTarget)}>
+              {/* <Stack component={ButtonBase} sx={style.profileBox} onClick={(e) => setProfileAnchorEl(e.currentTarget)}>
                 <Avatar sx={style.avatar}>{profile.role === 'admin' && <MdCorporateFare />}</Avatar>
                 {isSmUp && (
                   <>
@@ -53,7 +54,7 @@ export default function Header() {
                     <Box component={MdOutlineKeyboardArrowDown} color="text.disabled" />
                   </>
                 )}
-              </Stack>
+              </Stack> */}
             </>
           ) : (
             <>

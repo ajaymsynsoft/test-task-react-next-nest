@@ -13,7 +13,7 @@ const EditProduct: Page = () => {
 
   return (
     <>
-      <PageHeader heading="Edit Staff" backUrl="/dashboard/staff" />
+      <PageHeader heading="Edit Product" backUrl="/admin/products" />
 
       <Container>
         <RenderContent loading={isFetching} error={isError}>
@@ -26,11 +26,7 @@ const EditProduct: Page = () => {
 
 EditProduct.rootLayoutProps = {
   title: 'Edit Product',
-  pageType: 'protected',
-  module: {
-    id: 2,
-    permission: 'edit',
-  },
+  pageType: 'protected' 
 }
 
 export default EditProduct

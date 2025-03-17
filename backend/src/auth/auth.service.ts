@@ -62,7 +62,7 @@ export class AuthService {
       }
 
       user= user.toJSON();     
-
+      console.log(user)
       if (user.userRoles?.roleId !== role.id) {
         throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
       }      

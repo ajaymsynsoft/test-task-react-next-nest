@@ -6,25 +6,24 @@ import { DataGrid } from '@mui/x-data-grid'
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import { Page } from '@/types'
-import { useColumns } from './Staff.hook'
-import { useGetStaffListQuery } from '@/redux/api/admin/stores.api'
+import { useColumns } from './Store.hook'
+import { useGetStoreListQuery } from '@/redux/api/admin/stores.api'
 import { usePagination, useReduxSelector } from '@/hooks'
 
-const Staff: Page = () => {
+const Stores: Page = () => {
   const columns = useColumns()
-  const { modules } = useReduxSelector((state) => state.layout.profile)
   const { paginationModel, setPaginationModel, page, pageSize } = usePagination()
-  const { data, isFetching, isError, isLoading } = useGetStaffListQuery({ pageNo: page, pageSize })
+  const { data, isFetching, isError, isLoading } = useGetStoreListQuery({ pageNo: page, pageSize })
 
   return (
     <>
       <PageHeader
-        heading="Staff"
+        heading="Stores"
         count={data?.totalCount}
         actions={
-          modules[2].permissions.add && (
-            <Button href="/dashboard/staff/add" variant="contained" startIcon={<MdAdd />} LinkComponent={Link}>
-              Add Staff
+           (
+            <Button href="/admin/stores/add" variant="contained" startIcon={<MdAdd />} LinkComponent={Link}>
+              Add Store
             </Button>
           )
         }
@@ -39,13 +38,9 @@ const Staff: Page = () => {
   )
 }
 
-Staff.rootLayoutProps = {
-  title: 'Staff',
-  pageType: 'protected',
-  module: {
-    id: 2,
-    permission: 'view',
-  },
+Stores.rootLayoutProps = {
+  title: 'Stores',
+  pageType: 'protected' 
 }
 
-export default Staff
+export default Stores

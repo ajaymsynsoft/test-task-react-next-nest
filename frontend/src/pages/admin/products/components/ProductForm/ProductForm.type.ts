@@ -1,11 +1,11 @@
-import { StaffDTO } from '@/dto'
+import { ProductDTO } from '@/dto'
 
-export type StaffFormProps =
+export type ProductFormProps =
   | {
       isEditMode: false
       data?: void
     }
   | {
       isEditMode: true
-      data: StaffDTO
+      data: ProductDTO
     }

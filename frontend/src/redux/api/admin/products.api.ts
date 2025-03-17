@@ -5,17 +5,17 @@ import { ProductDTO } from '@/dto'
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
     addProduct: builder.mutation<void, Omit<ProductDTO, 'id'> & { password: string }>({
-      query: (body) => ({ url: '/v1/admin/product', method: 'POST', body }),
+      query: (body) => ({ url: '/admin/product', method: 'POST', body }),
       invalidatesTags: (result, error) => (!error ? [{ type: 'product', id: 'LIST' }] : []),
     }),
 
     updateProduct: builder.mutation<void, Omit<ProductDTO, 'password'>>({
-      query: (body) => ({ url: `/v1/admin/product/${body.id}`, method: 'PUT', body }),
+      query: (body) => ({ url: `/admin/product/${body.id}`, method: 'PUT', body }),
       invalidatesTags: (result, error, { id }) => (!error ? [{ type: 'product', id }] : []),
     }),
 
     deleteProduct: builder.mutation<void, number>({
-      query: (id) => ({ url: `/v1/admin/product/${id}`, method: 'DELETE' }),
+      query: (id) => ({ url: `/admin/product/${id}`, method: 'DELETE' }),
       invalidatesTags: (result, error, id) =>
         !error
           ? [
@@ -25,12 +25,12 @@ export const extendedApi = api.injectEndpoints({
           : [],
     }),
     getProduct: builder.query<ProductDTO, number>({
-      query: (id) => `/v1/admin/product/${id}`,
+      query: (id) => `/admin/product/${id}`,
       providesTags: (result, error, id) => (!error ? [{ type: 'product', id }] : []),
     }),
 
     getProductList: builder.query<PaginationApiResponse<ProductDTO>, Pagination>({
-      query: (params) => ({ url: `/v1/admin/products`, ProductDTO }),
+      query: (params) => ({ url: `/admin/product`, ProductDTO }),
       providesTags: (result, error) => (!error ? [...result!.list.map(({ id }) => ({ type: 'product' as const, id })), { type: 'product', id: 'LIST' }] : [{ type: 'product', id: 'LIST' }]),
     }),
  
