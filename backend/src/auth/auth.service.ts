@@ -47,7 +47,7 @@ export class AuthService {
 
       const role = await RoleMst.findOne({ where: { name: isAdmin ? 'admin' : 'customer' } });
 
-      const user = await User.findOne({
+      let user = await User.findOne({
         where: { email: userDto.email },
         include: [
           {
@@ -61,12 +61,12 @@ export class AuthService {
         throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
       }
 
-      console.log(user.dataValues, role.id);
+      user= user.toJSON();     
 
       if (user.userRoles?.roleId !== role.id) {
         throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
-      }
-
+      }      
+      
       const isPasswordValid = await bcrypt.compare(userDto.password, user.password);
       if (!isPasswordValid) {
         throw new UnauthorizedException('Invalid credentials');
@@ -80,6 +80,7 @@ export class AuthService {
         data: {
           user,
           token,
+          isAdmin: isAdmin ? 'admin' : 'customer'
         }
       };
     } catch (error) {

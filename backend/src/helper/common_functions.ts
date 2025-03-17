@@ -39,11 +39,7 @@ export const getUserByToken = async (userId: number, roleId: number, isParams = 
     if (!user) {
         throw new UnauthorizedException(globalMsg.errors.UNAUTHORIZED);
     }
-
-    if (!isParams && user.profile.isProfileSetup) {
-        throw new UnauthorizedException(globalMsg.errors.ALREADY_SUBSCRIBED);
-    }
-
+    
     let data: any = JSON.parse(JSON.stringify(user));
     data.roleId = data?.userRoles[0]?.roleId;
     data.role = data?.userRoles?.role?.name;
