@@ -1,0 +1,29 @@
+{
+	"LDMS Page Component": {
+		"prefix": "page",
+		"body": [
+			"import { TPage } from '@/types'",
+			"",
+			"const $1: TPage = () => {",
+			"  return ''",
+			"}",
+			"",
+			"$1.rootLayoutProps = {",
+			"  pageType: '$2',",
+			"  title: '$3',",
+			"}",
+			"",
+			"export default $1"
+		],
+	},
+	"LDMS Component Style": {
+		"prefix": "css",
+		"body": [
+			"import { TStyle } from '@/types'",
+			"",
+			"export const style: TStyle = {",
+			" $1",
+			"}"
+		]
+	}
+}
