@@ -1,1 +1,1 @@
-export type TRoles = 'admin' | 'customer'
+export type Roles = 'customer' | 'admin' | 'superAdmin' | 'supportStaff' | 'accommodationStaff' | 'financeStaff' | 'transportationStaff'

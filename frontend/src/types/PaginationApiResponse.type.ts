@@ -1,7 +1,5 @@
-export type TPaginationApiResponse<List> = {
+export type PaginationApiResponse<List> = {
   list: List[]
-  currentPage: number
   totalCount: number
-  totalItems: number
-  totalPages: number
+  totalRecords: number
 }

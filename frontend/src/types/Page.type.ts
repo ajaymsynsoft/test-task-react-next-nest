@@ -1,3 +1,3 @@
 import { AppProps } from '@/pages/_app.type'
 
-export type TPage = React.FC<any> & Pick<AppProps['Component'], 'rootLayoutProps'>
+export type Page = React.FC<any> & Pick<AppProps['Component'], 'getNestedLayout' | 'rootLayoutProps'>

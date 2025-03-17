@@ -1,3 +1,3 @@
 import { SxProps, Theme } from '@mui/material'
 
-export type TStyle = Record<string, SxProps<Theme>>
+export type Style = Record<string, SxProps<Theme>>
