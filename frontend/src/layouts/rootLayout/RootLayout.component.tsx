@@ -39,7 +39,7 @@ export default function RootLayout(props: RootLayoutProps & { children: React.Re
         <FullPageLoader />
       ) : (
         <ErrorBoundary error={isError}>        
-          {sidebar !== false && <Sidebar />}
+          {sidebar !== false && token  && <Sidebar />}
           <Stack flex={1} width={contentWidth} maxWidth={1}>            
             {header !== false && <Header />}
             <Stack component="main" flex={1} mb={isAdminDashboard ? 4 : 0}>
