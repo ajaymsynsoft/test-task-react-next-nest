@@ -9,7 +9,7 @@ import { Box, Button, Container, FormHelperText, Grid, Stack, Typography, Card, 
 
 import DisplayPrice from '@/components/displayPrice/DisplayPrice.component'
 import { Page } from '@/types'
-import { eventService } from '@/services/event.service'
+import { eventService } from '@/services/customer.service'
 import { makeEventUrl } from '@/utils'
 import { style } from './EventDetails.style'
 import { useReduxSelector } from '@/hooks'

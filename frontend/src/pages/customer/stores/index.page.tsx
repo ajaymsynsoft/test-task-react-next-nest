@@ -1,7 +1,7 @@
 import { Alert, Container, Grid, Stack, Pagination } from '@mui/material'
 
 import RenderContent from '@/components/renderContent/RenderContent.component'
-import StoreCard from '@/components/_card/storeCard/EventCard.component'
+import StoreCard from '@/components/_card/storeCard/StoreCard.component'
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import { Page } from '@/types'
 import { useGetStoreListQuery } from '@/redux/api/customer.api'
@@ -29,7 +29,7 @@ const StoreList: Page = () => {
             </Grid>
           ) : (
             <Alert variant="outlined" severity="info">
-              No upcoming events available at the moment
+              No stores available at the moment
             </Alert>
           )}
         </RenderContent>

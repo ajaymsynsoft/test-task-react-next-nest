@@ -1,5 +1,5 @@
 import { Pagination, PaginationApiResponse } from '@/types'
-import { api } from '../api.config'
+import { api } from './api.config'
 import { StoreDTO } from '@/dto'
 
 export const extendedApi = api.injectEndpoints({
