@@ -58,9 +58,9 @@ export const generateToken = (userId: number | bigint, roleId: number, configSer
     return token;
 }
 
-export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, searchOptions, modules = '') {
+export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, searchOptions, modules = '', userId = null) {
     try {
-        let { page = 1, limit = 10, sortOrder = 'desc', searchVal, sortBy, searchByStatus } = paginationDto;
+        let { page = 1, limit = 10, sortOrder = 'desc', searchVal, sortBy, storeId = null } = paginationDto;
         const offset = (page - 1) * limit;
         let order
 
@@ -79,6 +79,20 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
 
         let whereClause: any = {};
 
+        if (userId) {
+            whereClause = {
+                ...whereClause,
+                userId: userId,
+            }
+        }
+
+        if (modules == 'AllProductsModule' && storeId) {
+            whereClause = {
+                ...whereClause,
+                storeId: storeId,
+            }
+        }
+
         const rows = await Model.findAll({
             ...searchOptions,
             where: whereClause,
@@ -94,11 +108,7 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
 
         let totalCount = 0
 
-        if (modules === 'ShippingRequestModule') {
-            totalCount = await Model.count({ distinct: true, col: 'id' });
-        } else {
-            totalCount = await Model.count({ distinct: true, col: 'id', where: whereClause });
-        }
+        totalCount = await Model.count({ distinct: true, col: 'id', where: whereClause });
 
         return {
             statusCode: HttpStatus.OK,

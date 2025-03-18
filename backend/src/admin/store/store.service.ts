@@ -16,7 +16,7 @@ export class StoreService {
   }
 
   async findAll(paginationDto, userId: number) {
-    const result = await findEntitiesWithPaginationAndSearch(Store, paginationDto, { where: { userId } },);
+    const result = await findEntitiesWithPaginationAndSearch(Store, paginationDto, {}, 'AdminStoreModule', userId);
     return result;
   }
 

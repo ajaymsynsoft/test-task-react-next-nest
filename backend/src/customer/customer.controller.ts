@@ -1,9 +1,10 @@
-import { Controller, Get, UseGuards, Query, Request } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Request, Post, Body } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
-import { BasePaginationDto } from 'src/dto/create-common.dto';
+import { BasePaginationDto, ProductsPaginationDto } from 'src/dto/create-common.dto';
+import { CreateOrderDto } from './dto/create-customer.dto';
 
 
 @ApiBearerAuth('Authorization')
@@ -17,5 +18,20 @@ export class CustomerController {
   @Get('stores')
   findAllStores(@Request() req, @Query() paginationDto: BasePaginationDto,) {
     return this.customerService.findAllStores(paginationDto, req.user.id);
+  }
+
+  @Get('products')
+  findAllProducts(@Request() req, @Query() paginationDto: ProductsPaginationDto,) {
+    return this.customerService.findAllProducts(paginationDto, req.user.id);
+  }
+
+  @Get('orders')
+  findAllOrders(@Request() req, @Query() paginationDto: BasePaginationDto,) {
+    return this.customerService.findAllOrders(paginationDto, req.user.id);
+  }
+
+  @Post('place-order')
+  async placeOrder(@Request() req, @Body() dto: CreateOrderDto) {
+    return this.customerService.placeOrder(dto, req.user.id,);
   }
 }

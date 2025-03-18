@@ -24,7 +24,7 @@ export class ProductService {
   }
 
   async findAll(paginationDto, userId: number) {
-    const result = await findEntitiesWithPaginationAndSearch(Product, paginationDto, { where: { userId } },);
+    const result = await findEntitiesWithPaginationAndSearch(Product, paginationDto, {}, 'AdminProductsModule', userId);
     return result;
   }
 
