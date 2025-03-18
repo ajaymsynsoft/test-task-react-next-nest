@@ -8,15 +8,15 @@ import { useRouter } from 'next/router'
 import ConfirmationPopup from '@/components/confirmationPopup/ConfirmationPopup.component'
 import { formatToTitleCase, getStatusColor } from '@/utils'
 import { ProductDTO } from '@/dto'
-import { useDeleteProductMutation } from '@/redux/api/admin/products.api'
-import { useReduxSelector } from '@/hooks'
+import { useDeleteProductMutation, useUpdateProductMutation } from '@/redux/api/admin/products.api'
+
 
 export const useColumns = () => {
   const router = useRouter()
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
-  const [deleteStaff, { isLoading }] = useDeleteProductMutation()
-  // const { modules } = useReduxSelector((state) => state.layout.profile)
-
+  const [deleteProduct, { isLoading }] = useDeleteProductMutation()
+  const [updateProduct, { isUpdateLoading }] = useUpdateProductMutation()
+ 
   const columns: GridColDef<ProductDTO>[] = [
     {
       field: 'id',
@@ -32,21 +32,21 @@ export const useColumns = () => {
     },
     {
       field: 'name',
-      headerName: 'Full Name',
+      headerName: 'Name',
       sortable: false,
       minWidth: 200,
       renderCell: ({ row }) => `${row.name}`,
     },
     {
-      field: 'email',
-      headerName: 'Email',
+      field: 'stock',
+      headerName: 'Stock',
       sortable: false,
       flex: 1,
       minWidth: 200,
     },  
     {
-      field: 'phone',
-      headerName: 'Phone',
+      field: 'price',
+      headerName: 'Price',
       sortable: false,
       minWidth: 140,
     },
@@ -67,32 +67,70 @@ export const useColumns = () => {
       width: 80,
       align: 'center',
       type: 'actions',
-      // getActions: (params) => {
-      //   const actions = []
+      getActions: (params) => {
+        const actions = []
+         actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/products/edit/${params.id}`)} icon={<MdEdit />} />)
+        // actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/products/edit/${params.id}`)} icon={<MdEdit />} />)
 
-      //   if (modules[2].permissions.edit) actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/dashboard/staff/edit/${params.id}`)} icon={<MdEdit />} />)
+       
+          actions.push(
+            <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
+            <ConfirmationPopup
+              key="deletePopup"
+              heading="Delete product"
+              subheading={`Sure to delete "${params.row.name}" product?`}
+              acceptButtonText="Delete"
+              loading={isLoading}
+              open={params.id === deleteItemId}
+              onCancel={() => setDeleteItemId(null)}
+              onAccept={() =>
+                deleteProduct(params.row.id)
+                  .unwrap()
+                  .then((_) => setDeleteItemId(null))
+              }
+            />,
+          )
+          if(params.row.status=='active'){
+            actions.push(
+              <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
+              <ConfirmationPopup
+                key="updatePopup"
+                heading="Update product"
+                subheading={`Sure to mark as phase out "${params.row.name}" product?`}
+                acceptButtonText="Done"
+                loading={isUpdateLoading}
+                open={params.id === deleteItemId}
+                onCancel={() => setDeleteItemId(null)}
+                onAccept={() =>
+                  updateProduct({id:params.row.id,status:'inActive'})
+                    .unwrap()
+                    .then((_) => setDeleteItemId(null))
+                }
+              />,
+            )
+          }else{
+            actions.push(
+              <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
+              <ConfirmationPopup
+                key="updatePopup"
+                heading="Update product"
+                subheading={`Sure to mark as active "${params.row.name}" product?`}
+                acceptButtonText="Done"
+                loading={isUpdateLoading}
+                open={params.id === deleteItemId}
+                onCancel={() => setDeleteItemId(null)}
+                onAccept={() =>
+                  updateProduct({id:params.row.id,status:'active'})
+                    .unwrap()
+                    .then((_) => setDeleteItemId(null))
+                }
+              />,
+            )
+          }
+          
 
-      //   if (modules[2].permissions.delete)
-      //     actions.push(
-      //       <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
-      //       <ConfirmationPopup
-      //         key="deletePopup"
-      //         heading="Delete staff member"
-      //         subheading={`Sure to delete "${params.row.firstName + params.row.lastName}" staff member?`}
-      //         acceptButtonText="Delete"
-      //         loading={isLoading}
-      //         open={params.id === deleteItemId}
-      //         onCancel={() => setDeleteItemId(null)}
-      //         onAccept={() =>
-      //           deleteStaff(params.row.id)
-      //             .unwrap()
-      //             .then((_) => setDeleteItemId(null))
-      //         }
-      //       />,
-      //     )
-
-      //   return actions
-      // },
+        return actions
+      },
     },
   ]
 

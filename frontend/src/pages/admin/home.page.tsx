@@ -24,11 +24,7 @@ const Home: Page = () => {
 
 Home.rootLayoutProps = {
   title: 'Home',
-  pageType: 'protected',
-  module: {
-    id: 2,
-    permission: 'view',
-  },
+  pageType: 'protected',  
 }
 
 export default Home

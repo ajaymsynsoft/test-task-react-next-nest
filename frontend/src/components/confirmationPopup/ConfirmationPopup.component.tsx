@@ -1,30 +1,32 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid2, Typography, Button } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Button, Dialog, DialogContent, Stack, Typography } from '@mui/material'
 
 import { ConfirmationPopupProps } from './ConfirmationPopup.type'
 
 export default function ConfirmationPopup(props: ConfirmationPopupProps) {
-  const { heading, subheading, loading, acceptButtonText, cancelButtonText, onAccept, onCancel } = props
+  const { heading, subheading, loading, open = true, acceptButtonText, cancelButtonText, onAccept, onCancel } = props
 
   return (
-    <Dialog open fullWidth onClose={() => !loading && onCancel()}>
-      <DialogTitle>{heading}</DialogTitle>
+    <Dialog open={open} fullWidth maxWidth="sm" onClose={() => !loading && onCancel()}>
       <DialogContent>
-        <Typography variant="h4">{subheading}</Typography>
-      </DialogContent>
-      <DialogActions sx={{ color: 'text.secondary' }}>
-        <Grid2 container width={1} justifyContent="end">
-          <Grid2 size={{ xs: 6, sm: 'auto' }}>
-            <Button variant="outlined" color="inherit" fullWidth disabled={loading} onClick={onCancel}>
+        <Stack gap={2}>
+          <Stack gap={1}>
+            <Typography variant="h2" fontWeight={600}>
+              {heading}
+            </Typography>
+            <Typography component="div">{subheading}</Typography>
+          </Stack>
+
+          <Stack direction="row" justifyContent="end" gap={1}>
+            <Button variant="text" disabled={loading} onClick={onCancel}>
               {cancelButtonText || 'Cancel'}
             </Button>
-          </Grid2>
-          <Grid2 size={{ xs: 6, sm: 'auto' }}>
-            <Button variant="gradient" fullWidth loading={loading} onClick={onAccept}>
+            <LoadingButton variant="contained" loading={loading} onClick={onAccept}>
               {acceptButtonText}
-            </Button>
-          </Grid2>
-        </Grid2>
-      </DialogActions>
+            </LoadingButton>
+          </Stack>
+        </Stack>
+      </DialogContent>
     </Dialog>
   )
 }

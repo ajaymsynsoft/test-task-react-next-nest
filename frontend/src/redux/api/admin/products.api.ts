@@ -12,7 +12,7 @@ export const extendedApi = api.injectEndpoints({
     updateProduct: builder.mutation<void, Omit<ProductDTO, 'password'>>({
       query: (body) => ({ url: `/admin/product/${body.id}`, method: 'PUT', body }),
       invalidatesTags: (result, error, { id }) => (!error ? [{ type: 'product', id }] : []),
-    }),
+    }),   
 
     deleteProduct: builder.mutation<void, number>({
       query: (id) => ({ url: `/admin/product/${id}`, method: 'DELETE' }),
@@ -30,7 +30,7 @@ export const extendedApi = api.injectEndpoints({
     }),
 
     getProductList: builder.query<PaginationApiResponse<ProductDTO>, Pagination>({
-      query: (params) => ({ url: `/admin/product`, ProductDTO }),
+      query: (params) => ({ url: `/admin/product`, params }),
       providesTags: (result, error) => (!error ? [...result!.list.map(({ id }) => ({ type: 'product' as const, id })), { type: 'product', id: 'LIST' }] : [{ type: 'product', id: 'LIST' }]),
     }),
  

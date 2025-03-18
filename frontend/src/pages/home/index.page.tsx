@@ -5,7 +5,7 @@ const Home: Page = () => {
 }
 
 Home.rootLayoutProps = {
-  pageType: 'public',
+  pageType: 'protected',
   title: 'Home',
 }
 
