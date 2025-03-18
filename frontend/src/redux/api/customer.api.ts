@@ -30,4 +30,4 @@ export const extendedApi = api.injectEndpoints({
   }),
 })
 
-export const {  useGetStoreListQuery, useGetProductListQuery, useGetOrderListQuery } = extendedApi
+export const {  useGetStoreListQuery, useGetProductListQuery, useGetOrderListQuery, useAddOrderMutation } = extendedApi

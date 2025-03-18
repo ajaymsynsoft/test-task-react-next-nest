@@ -3,6 +3,5 @@ import { DisplayPriceProps } from './DisplayPrice.type'
 import { formatNumber } from '@/utils'
 
 export default function DisplayPrice({ price, code }: DisplayPriceProps) {
-
-  return `${formatNumber(price)} ${code}`
+  return `Price: $${formatNumber(price)}`
 }
