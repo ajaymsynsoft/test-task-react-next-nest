@@ -26,7 +26,7 @@ export const extendedApi = api.injectEndpoints({
     }),
 
     updateOrder: builder.mutation<void, Omit<OrderDTO, 'id'> & { password: string }>({
-      query: (body) => ({ url: `/customer/updateOrder/${body.id}`, method: 'POST', body }),
+      query: (body) => ({ url: `/customer/updateOrder/${body.id}`, method: 'PUT', body }),
       invalidatesTags: (result, error) => (!error ? [{ type: 'store', id: 'LIST' }] : []),
     }),
    

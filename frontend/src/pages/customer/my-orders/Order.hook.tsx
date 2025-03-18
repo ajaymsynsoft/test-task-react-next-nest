@@ -77,7 +77,7 @@ export const useColumns = () => {
               open={params.id === returnItemId}
               onCancel={() => setReturnItemId(null)}
               onAccept={() =>
-                updateOrderStatus(params.row.id)
+                updateOrderStatus({id:params.row.id})
                   .unwrap()
                   .then((_) => setReturnItemId(null))
               }
