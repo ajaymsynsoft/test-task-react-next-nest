@@ -84,7 +84,7 @@ export class CustomerService {
       await t.commit();
       return {
         statusCode: HttpStatus.OK,
-        message: globalMsg.common.UPDATED_SUCCESSFULLY,
+        message: globalMsg.common.ORDER_RETURNED_SUCCESSFULLY,
         result: order,
       };
     } catch (error) {
