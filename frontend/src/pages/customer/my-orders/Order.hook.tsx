@@ -5,17 +5,14 @@ import { Chip, Link as MuiLink } from '@mui/material'
 import { MdDelete, MdEdit } from 'react-icons/md'
 import { useRouter } from 'next/router'
 
-import ConfirmationPopup from '@/components/confirmationPopup/ConfirmationPopup.component'
+
 import { formatToTitleCase, getStatusColor } from '@/utils'
 import { OrderDTO } from '@/dto'
-import { useDeleteStaffMutation } from '@/redux/api/customer.api'
 import { useReduxSelector } from '@/hooks'
 
 export const useColumns = () => {
   const router = useRouter()
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
-  const [deleteStaff, { isLoading }] = useDeleteStaffMutation()
-  const { modules } = useReduxSelector((state) => state.layout.profile)
 
   const columns: GridColDef<OrderDTO>[] = [
     {
@@ -24,18 +21,14 @@ export const useColumns = () => {
       sortable: false,
       minWidth: 85,
       width: 85,
-      renderCell: ({ row }) => (
-        <MuiLink component={Link} href={`/customer/staff/edit/${row.id}`}>
-          #{row.id}
-        </MuiLink>
-      ),
+      renderCell: ({ row }) => `#${row.id}`,
     },
     {
       field: 'name',
       headerName: 'Full Name',
       sortable: false,
       minWidth: 200,
-      renderCell: ({ row }) => `${row.firstName} ${row.lastName}`,
+      renderCell: ({ row }) => `${row.name}`,
     },
     {
       field: 'email',

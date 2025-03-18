@@ -20,8 +20,7 @@ const MyOrders: Page = () => {
     <>
       <PageHeader
         heading="My orders"
-        count={data?.totalCount}
-        actions={ }
+        count={data?.totalCount}       
       />
          
       <Container>

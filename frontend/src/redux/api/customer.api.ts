@@ -35,8 +35,8 @@ export const extendedApi = api.injectEndpoints({
       providesTags: (result, error) => (!error ? [...result!.list.map(({ id }) => ({ type: 'store' as const, id })), { type: 'store', id: 'LIST' }] : [{ type: 'store', id: 'LIST' }]),
     }),
  
-    getAllStoreList: builder.query<{ id: number; name: string }[], void>({
-      query: () => '/admin/store/list',
+    getProductList: builder.query<{ id: number; name: string }[], void>({
+      query: (params) =>  ({ url: `/customer/products/{id}`, params }), 
       providesTags: (result, error) => (!error ? [{ type: 'store', id: 'ROLE_LIST' }] : []),
     }),
 
@@ -44,4 +44,4 @@ export const extendedApi = api.injectEndpoints({
   }),
 })
 
-export const { useAddStoreMutation, useUpdateStoreMutation, useDeleteStoreMutation, useGetStoreQuery, useGetStoreListQuery, useGetAllStoreListQuery } = extendedApi
+export const { useAddStoreMutation, useUpdateStoreMutation, useDeleteStoreMutation, useGetStoreQuery, useGetStoreListQuery, useGetProductListQuery } = extendedApi
