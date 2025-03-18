@@ -71,6 +71,10 @@ export class CustomerService {
         throw new BadRequestException(globalMsg.errors.ORDER_NOT_FOUND);
       }
 
+      if (order.dataValues.status === 'return') {
+        throw new BadRequestException('Order already returned');
+      }
+
       await order.update({ status: 'return' }, { transaction: t });
       await Product.update(
         { stock: Sequelize.literal('stock + 1') },
