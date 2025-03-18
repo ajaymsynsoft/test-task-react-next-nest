@@ -14,6 +14,7 @@ import { useDeleteProductMutation, useUpdateProductMutation } from '@/redux/api/
 export const useColumns = () => {
   const router = useRouter()
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
+  const [updateItemId, setUpdateItemId] = useState<number | null>(null)
   const [deleteProduct, { isLoading }] = useDeleteProductMutation()
   const [updateProduct, { isUpdateLoading }] = useUpdateProductMutation()
  
@@ -99,37 +100,37 @@ export const useColumns = () => {
           )
           if(params.row.status=='active'){
             actions.push(
-              <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
+              <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setUpdateItemId(params.row.id)} />,
               <ConfirmationPopup
                 key="updatePopup"
                 heading="Update product"
                 subheading={`Sure to mark as phase out "${params.row.name}" product?`}
                 acceptButtonText="Done"
                 loading={isUpdateLoading}
-                open={params.id === deleteItemId}
-                onCancel={() => setDeleteItemId(null)}
+                open={params.id === updateItemId}
+                onCancel={() => setUpdateItemId(null)}
                 onAccept={() =>
                   updateProduct({id:params.row.id,status:'inActive'})
                     .unwrap()
-                    .then((_) => setDeleteItemId(null))
+                    .then((_) => setUpdateItemId(null))
                 }
               />,
             )
           }else{
             actions.push(
-              <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
+              <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setUpdateItemId(params.row.id)} />,
               <ConfirmationPopup
                 key="updatePopup"
                 heading="Update product"
                 subheading={`Sure to mark as active "${params.row.name}" product?`}
                 acceptButtonText="Done"
                 loading={isUpdateLoading}
-                open={params.id === deleteItemId}
-                onCancel={() => setDeleteItemId(null)}
+                open={params.id === updateItemId}
+                onCancel={() => setUpdateItemId(null)}
                 onAccept={() =>
                   updateProduct({id:params.row.id,status:'active'})
                     .unwrap()
-                    .then((_) => setDeleteItemId(null))
+                    .then((_) => setUpdateItemId(null))
                 }
               />,
             )
