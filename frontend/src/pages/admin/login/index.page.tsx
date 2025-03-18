@@ -43,13 +43,7 @@ const Login: TPage = () => {
         <Stack component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={style.box}>
           <Stack gap={1.5}>
             <Typography variant="h1" textAlign="center" fontWeight={700}>
-              Log In
-            </Typography>
-            <Typography textAlign="center">
-              Don't have an account? &nbsp;{' '}
-              <MuiLink component={Link} underline="hover" href="/auth/register">
-                Register
-              </MuiLink>
+              Admin Log In
             </Typography>
           </Stack>
 
@@ -62,9 +56,6 @@ const Login: TPage = () => {
               control={control}
               slotProps={{ input: { endAdornment: <IconButton onClick={() => setShowPassword((v) => !v)}>{showPassword ? <MdVisibility /> : <MdVisibilityOff />}</IconButton> } }}
             />
-            <MuiLink component={Link} href="/auth/forgot-password" underline="hover" sx={style.forgotPassword}>
-              Forgot Password?
-            </MuiLink>
           </Stack>
 
           <LoadingButton variant="contained" size="large" type="submit" loading={isSubmitting}>
@@ -78,7 +69,7 @@ const Login: TPage = () => {
 
 Login.rootLayoutProps = {
   pageType: 'auth',
-  title: 'Login',
+  title: 'Admin Login',
   footer: false,
   header: false,
 }

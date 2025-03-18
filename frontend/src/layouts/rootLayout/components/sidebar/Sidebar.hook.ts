@@ -8,12 +8,10 @@ import { MenuOption } from '@/types'
 import { useReduxSelector } from '@/hooks'
 
 export const useSidebarOptions = () => {
-
   const SIDEBAR_OPTIONS: MenuOption[] = [
     { id: 6, label: 'Dashboard', link: '/admin/home', Icon: MdOutlineDashboard },
     { id: 1, label: 'Stores', link: '/admin/stores', Icon: MdCorporateFare },
-    { id: 5, label: 'Products', link: '/admin/products', Icon: RiListUnordered }  
-   
+    { id: 5, label: 'Products', link: '/admin/products', Icon: RiListUnordered },
   ]
 
   return SIDEBAR_OPTIONS

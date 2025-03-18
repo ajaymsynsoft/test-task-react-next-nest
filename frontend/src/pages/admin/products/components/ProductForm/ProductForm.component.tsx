@@ -35,7 +35,7 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
         name: data.name,
         image_url: data.image_url,
         price: data.price,
-        stock: data.stock,     
+        stock: data.stock,
         storeId: data.storeId,
       }),
     },
@@ -43,7 +43,7 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
 
   const onSubmit = async ({ ...formData }: TSchema) => {
     if (isEditMode) await updateProduct({ ...formData, id: Number(router.query.id) }).unwrap()
-    else await addProduct({ ...formData, status:'active' }).unwrap()
+    else await addProduct({ ...formData, status: 'active' }).unwrap()
     router.push('/admin/products')
   }
 
@@ -51,27 +51,27 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
     <RenderContent loading={isLoading} error={isError}>
       {storeList && (
         <Grid container component="form" noValidate onSubmit={handleSubmit(onSubmit)} spacing={2}>
-          {/* First Name  */}
+          {/* Name  */}
           <Grid item xs={12} sm={6}>
             <InputField name="name" label="Name *" control={control} />
           </Grid>
 
-          {/* Last Name */}
+          {/* Image Url */}
           <Grid item xs={12} sm={6}>
             <InputField name="image_url" label="Image Url" control={control} />
           </Grid>
 
-          {/* Email */}
+          {/* Price */}
           <Grid item xs={12} sm={6}>
             <InputField name="price" label="Price *" control={control} disabled={isEditMode} />
           </Grid>
 
-          {/* Phone */}
+          {/* Stock */}
           <Grid item xs={12} sm={6}>
-          <InputField name="stock" label="Stock *" control={control} disabled={isEditMode} />
+            <InputField name="stock" label="Stock *" control={control} disabled={isEditMode} />
           </Grid>
 
-          {/* Role */}
+          {/* Store */}
           <Grid item xs={12} sm={6}>
             <Controller
               name="storeId"
@@ -79,8 +79,8 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
               defaultValue={'' as any}
               render={({ fieldState: { error }, field: { ref, ...restField } }) => (
                 <FormControl error={!!error}>
-                  <InputLabel>Role *</InputLabel>
-                  <Select {...restField} inputRef={ref} label="Role *">
+                  <InputLabel>Store *</InputLabel>
+                  <Select {...restField} inputRef={ref} label="Store *">
                     {storeList.map((item, index) => (
                       <MenuItem value={item.id} key={index}>
                         {formatToTitleCase(item.name)}
@@ -91,7 +91,7 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
                 </FormControl>
               )}
             />
-          </Grid>   
+          </Grid>
 
           {/* Footer */}
           <Grid item xs={12}>

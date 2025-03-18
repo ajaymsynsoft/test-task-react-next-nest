@@ -12,6 +12,7 @@ import { usePagination, useReduxSelector } from '@/hooks'
 const Home: TPage = () => {
   return (
     <>
+      <PageHeader heading="Home Page" />
       <Container>Home Page...</Container>
     </>
   )
