@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Query, Request, Post, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Query, Request, Post, Body, Put, Param } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -34,4 +34,10 @@ export class CustomerController {
   async placeOrder(@Request() req, @Body() dto: CreateOrderDto) {
     return this.customerService.placeOrder(dto, req.user.id,);
   }
+
+  @Put('updateOrder/:id')
+  updateOrder(@Param('id') id: number, @Request() req,) {
+    return this.customerService.updateOrder(+id, req.user.id);
+  }
+
 }

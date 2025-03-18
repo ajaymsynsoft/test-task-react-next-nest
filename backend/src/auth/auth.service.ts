@@ -8,6 +8,7 @@ import globalMsg from 'src/globalMsg';
 import { UserRoles } from 'src/models/userRoles.entity';
 import { ConfigService } from '@nestjs/config';
 import { RoleMst } from 'src/models/roleMst.entity';
+import { sequelize } from 'src/database/database.config';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,7 @@ export class AuthService {
   constructor(private configService: ConfigService) { }
 
   async register(userDto: CreateUserDto) {
+    const t = await sequelize.transaction();
     try {
       const existingUser = await User.findOne({ where: { email: userDto.email } });
       if (existingUser) {
@@ -26,12 +28,13 @@ export class AuthService {
         ...userDto,
         // name:userDto.fullName,
         password: hashedPassword,
-      });
+      }, { transaction: t });
 
-      await UserRoles.create({ roleId: 2, userId: user.id });
+      await UserRoles.create({ roleId: 2, userId: user.id }, { transaction: t });
 
       delete user.dataValues.password;
 
+      await t.commit();
       return {
         statusCode: HttpStatus.OK,
         message: globalMsg.auth.REGISTERED_SUCCESSFULLY,
@@ -40,6 +43,7 @@ export class AuthService {
         }
       };
     } catch (error) {
+      await t.rollback();
       handleSequelizeError(error);
     }
   }
@@ -68,8 +72,8 @@ export class AuthService {
         throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
       }
 
-      console.log(userDto.password,user.password);
-      
+      console.log(userDto.password, user.password);
+
       const isPasswordValid = await bcrypt.compare(userDto.password, user.password);
       if (!isPasswordValid) {
         throw new UnauthorizedException('Invalid credentials');
@@ -94,7 +98,7 @@ export class AuthService {
   async getProfile(id: any) {
     try {
 
-      const findLawyer = await User.findByPk(id, {
+      const findUser = await User.findByPk(id, {
         include: [
           {
             model: UserRoles,
@@ -111,14 +115,14 @@ export class AuthService {
       },
       );
 
-      if (!findLawyer) {
-        throw new NotFoundException(globalMsg.errors.LAWYER_NOT_FOUND);
+      if (!findUser) {
+        throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
       }
 
       return {
         statusCode: HttpStatus.OK,
         message: globalMsg.common.FETCH_DATA_SUCCESSFULLY,
-        data: findLawyer
+        data: findUser
       };
     } catch (error) {
       handleSequelizeError(error)
