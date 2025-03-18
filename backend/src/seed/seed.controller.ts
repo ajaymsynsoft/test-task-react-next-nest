@@ -13,4 +13,9 @@ export class SeedController {
   create() {
     return this.seedService.create();
   }
+
+  @Post('creteAdmin')
+  createAdmin() {
+    return this.seedService.creteAdmin();
+  }
 }

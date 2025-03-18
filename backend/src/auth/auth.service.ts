@@ -24,7 +24,7 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(userDto.password, 10);
       const user = await User.create({
         ...userDto,
-        name:userDto.fullName,
+        // name:userDto.fullName,
         password: hashedPassword,
       });
 
@@ -62,11 +62,13 @@ export class AuthService {
         throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
       }
 
-      user= user.toJSON();     
+      user = user.toJSON();
       console.log(user)
       if (user.userRoles?.roleId !== role.id) {
         throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
-      }      
+      }
+
+      console.log(userDto.password,user.password);
       
       const isPasswordValid = await bcrypt.compare(userDto.password, user.password);
       if (!isPasswordValid) {

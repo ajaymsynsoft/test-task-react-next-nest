@@ -5,6 +5,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
+import { BasePaginationDto } from 'src/dto/create-common.dto';
 
 @ApiBearerAuth('Authorization')
 @ApiTags('Product')
@@ -20,18 +21,18 @@ export class ProductController {
   }
 
   @Get()
-  findAll(@Request() req, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
-    return this.productService.findAll(Number(page), Number(limit),req.user.id);
+  findAll(@Request() req, @Query() paginationDto: BasePaginationDto) {
+    return this.productService.findAll(paginationDto, req.user.id);
   }
 
   @Get(':id')
   findOne(@Request() req, @Param('id') id: string) {
-    return this.productService.findOne(+id,req.user.id);
+    return this.productService.findOne(+id, req.user.id);
   }
 
   @Patch(':id')
   update(@Request() req, @Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto,req.user.id);
+    return this.productService.update(+id, updateProductDto, req.user.id);
   }
 
   @Delete(':id')

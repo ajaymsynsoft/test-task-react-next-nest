@@ -5,6 +5,7 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
+import { BasePaginationDto } from 'src/dto/create-common.dto';
 
 @ApiBearerAuth('Authorization')
 @ApiTags('Store')
@@ -25,8 +26,8 @@ export class StoreController {
   }
 
   @Get()
-  findAll(@Request() req, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
-    return this.storeService.findAll(Number(page), Number(limit),req.user.id);
+  findAll(@Request() req, @Query() paginationDto: BasePaginationDto,) {
+    return this.storeService.findAll(paginationDto,req.user.id);
   }
 
   @Get(':id')

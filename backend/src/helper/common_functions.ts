@@ -39,7 +39,7 @@ export const getUserByToken = async (userId: number, roleId: number, isParams = 
     if (!user) {
         throw new UnauthorizedException(globalMsg.errors.UNAUTHORIZED);
     }
-    
+
     let data: any = JSON.parse(JSON.stringify(user));
     data.roleId = data?.userRoles[0]?.roleId;
     data.role = data?.userRoles?.role?.name;
@@ -58,7 +58,7 @@ export const generateToken = (userId: number | bigint, roleId: number, configSer
     return token;
 }
 
-export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, searchOptions, modules) {
+export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, searchOptions, modules = '') {
     try {
         let { page = 1, limit = 10, sortOrder = 'desc', searchVal, sortBy, searchByStatus } = paginationDto;
         const offset = (page - 1) * limit;
@@ -77,7 +77,7 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
             order = [['createdAt', sortOrder]];
         }
 
-        let whereClause: any = {};       
+        let whereClause: any = {};
 
         const rows = await Model.findAll({
             ...searchOptions,
