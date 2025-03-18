@@ -5,7 +5,7 @@ import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import StoreForm from '../components/storeForm/StoreForm.component'
 import { TPage } from '@/types'
-import { useGetStoreQuery } from '@/redux/api/admin/store.api'
+import { useGetStoreQuery } from '@/redux/api/admin/stores.api'
 
 const EditStore: TPage = () => {
   const router = useRouter()
