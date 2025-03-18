@@ -25,9 +25,12 @@ export const extendedApi = api.injectEndpoints({
       invalidatesTags: (result, error) => (!error ? [{ type: 'store', id: 'LIST' }] : []),
     }),
 
-
+    updateOrder: builder.mutation<void, Omit<OrderDTO, 'id'> & { password: string }>({
+      query: (body) => ({ url: `/customer/updateOrder/${body.id}`, method: 'POST', body }),
+      invalidatesTags: (result, error) => (!error ? [{ type: 'store', id: 'LIST' }] : []),
+    }),
    
   }),
 })
 
-export const {  useGetStoreListQuery, useGetProductListQuery, useGetOrderListQuery, useAddOrderMutation } = extendedApi
+export const {  useGetStoreListQuery, useGetProductListQuery, useGetOrderListQuery, useAddOrderMutation, useUpdateOrderMutation } = extendedApi
