@@ -22,7 +22,7 @@ export class Order extends Model<Order> {
     name: string;
 
     @Column({ type: DataType.INTEGER, allowNull: false })
-    stock: number;
+    quantity: number;
 
     @Column({ type: DataType.ENUM('completed', 'return'), allowNull: false, defaultValue: 'completed' })
     status: 'completed' | 'return';
