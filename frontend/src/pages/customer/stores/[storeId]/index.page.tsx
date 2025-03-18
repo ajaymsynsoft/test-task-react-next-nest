@@ -9,12 +9,12 @@ import { Box, Button, Container, FormHelperText, Grid, Stack, Typography, Card, 
 
 import DisplayPrice from '@/components/displayPrice/DisplayPrice.component'
 import { Page } from '@/types'
-import { eventService } from '@/services/customer.service'
+import { customerService } from '@/services/customer.service'
 import { makeEventUrl } from '@/utils'
-import { style } from './EventDetails.style'
+import { style } from './ProductList.style'
 import { useReduxSelector } from '@/hooks'
 
-const EventDetails: Page = (props: InferGetStaticPropsType<typeof getServerSideProps>) => {
+const ProductList: Page = (props: InferGetStaticPropsType<typeof getServerSideProps>) => {
   const { event, eventId } = props
   const {
     isLoggedIn,
@@ -108,18 +108,18 @@ const EventDetails: Page = (props: InferGetStaticPropsType<typeof getServerSideP
 }
 
 export const getServerSideProps = (async ({ params }) => {
-  const eventId = params?.eventId as string
-  const event = await eventService.getEvent(eventId)
+  const storeId = params?.storeId as string
+  const products = await customerService.getProducts(storeId)
 
   return {
-    props: { event, eventId },
-    notFound: !event,
+    props: { products, storeId },
+    notFound: !products,
   }
 }) satisfies GetServerSideProps
 
-EventDetails.rootLayoutProps = {
-  title: 'Event Details',
+ProductList.rootLayoutProps = {
+  title: 'Product List',
   pageType: 'public',
 }
 
-export default EventDetails
+export default ProductList

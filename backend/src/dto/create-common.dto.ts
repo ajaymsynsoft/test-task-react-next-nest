@@ -4,11 +4,11 @@ import { IsNotEmpty, IsOptional } from "class-validator";
 export class BasePaginationDto {
     @ApiProperty({ required: false, default: 1 })
     @IsOptional()
-    page?: number;
+    pageNo?: number;
 
     @ApiProperty({ required: false, default: 10 })
     @IsOptional()
-    limit?: number;
+    pageSize?: number;
 }
 
 export class ProductsPaginationDto extends BasePaginationDto {

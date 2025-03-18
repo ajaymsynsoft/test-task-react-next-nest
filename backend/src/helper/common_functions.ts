@@ -61,8 +61,8 @@ export const generateToken = (userId: number | bigint, roleId: number, configSer
 
 export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, searchOptions, modules = '', userId = null) {
     try {
-        let { page = 1, limit = 10, sortOrder = 'desc', searchVal, sortBy, storeId = null } = paginationDto;
-        const offset = (page - 1) * limit;
+        let { pageNo = 1, pageSize = 10, sortOrder = 'desc', searchVal, sortBy, storeId = null } = paginationDto;
+        const offset = (pageNo - 1) * pageSize;
         let order
 
         searchVal = searchVal && searchVal.length === 0 ? undefined : searchVal;
@@ -106,7 +106,7 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
             ...searchOptions,
             where: whereClause,
             offset,
-            limit: +limit,
+            limit: +pageSize,
             order,
             include
         });
@@ -126,8 +126,8 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
             data: {
                 list: rows,
                 totalItems,
-                currentPage: +page,
-                totalPages: Math.ceil(totalItems / limit),
+                currentPage: +pageNo,
+                totalPages: Math.ceil(totalItems / pageSize),
                 totalCount
             }
 
