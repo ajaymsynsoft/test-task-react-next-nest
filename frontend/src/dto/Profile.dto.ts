@@ -2,12 +2,9 @@ import { Roles } from '@/types'
 
 export type ProfileDTO = {
   id: number
-  firstName: string
-  lastName: string
+  name: string 
   phone: string
-  email: string
-  country: string | null
-  countryId: number | null
+  email: string 
   roleId: number
   fcmToken: string
 } & (

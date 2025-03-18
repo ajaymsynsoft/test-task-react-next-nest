@@ -1,6 +1,5 @@
 import { api } from './api.config'
 import { AuthApiResponse } from '@/pages/auth/Auth.type'
-import { OrganizationDTO } from '@/dto'
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,13 +12,12 @@ export const extendedApi = api.injectEndpoints({
       }),
     }),
 
-    register: builder.mutation<AuthApiResponse, FormData>({
+    register: builder.mutation<AuthApiResponse, { email: string; password: string,fullName: string }>({
       query: (body) => ({
         url: '/auth/register',
         method: 'POST',
-        body,
-        formData: true,
-        // headers: { hideToast: 'true' },
+        body,        
+        headers: { hideToast: 'true' },
       }),
     }),
   }),

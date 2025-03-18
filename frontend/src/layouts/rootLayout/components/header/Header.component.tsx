@@ -26,8 +26,7 @@ export default function Header() {
   }
 
   return (
-    <Stack component="header" sx={style.root}>
-      Heaer 2323232323
+    <Stack component="header" sx={style.root}>    
       <Container sx={style.container}>
         {/* Logo */}
         <Stack sx={style.logoContainer}>
@@ -44,17 +43,17 @@ export default function Header() {
                 <MdNotificationsNone className="icon-xl" />
               </IconButton>
               <Divider orientation="vertical" sx={style.divider} />
-              {/* <Stack component={ButtonBase} sx={style.profileBox} onClick={(e) => setProfileAnchorEl(e.currentTarget)}>
+              <Stack component={ButtonBase} sx={style.profileBox} onClick={(e) => setProfileAnchorEl(e.currentTarget)}>
                 <Avatar sx={style.avatar}>{profile.role === 'admin' && <MdCorporateFare />}</Avatar>
                 {isSmUp && (
                   <>
                     <Typography sx={style.profileName} noWrap>
-                      {name}
+                      {profile.name}
                     </Typography>
                     <Box component={MdOutlineKeyboardArrowDown} color="text.disabled" />
                   </>
                 )}
-              </Stack> */}
+              </Stack>
             </>
           ) : (
             <>

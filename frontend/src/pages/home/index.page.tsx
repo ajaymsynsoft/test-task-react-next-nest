@@ -1,6 +1,6 @@
-import { TPage } from '@/types'
+import { Page } from '@/types'
 
-const Home: TPage = () => {
+const Home: Page = () => {
   return 'Home'
 }
 

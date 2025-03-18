@@ -6,7 +6,7 @@ export const setUser = (profile: AuthApiResponse) => {
 
   const urlParams = new URLSearchParams(window.location.search)
   const returnTo = urlParams.get('returnTo')
-  const redirectUrl = returnTo ?? (profile.role === 'customer' ? '/' : '/dashboard/home')
+  const redirectUrl = returnTo ?? (profile.isAdmin === 'customer' ? '/' : '/admin/home')
 
   window.location.replace(redirectUrl)
 }

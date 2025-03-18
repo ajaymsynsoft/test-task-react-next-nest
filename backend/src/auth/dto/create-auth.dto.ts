@@ -32,5 +32,9 @@ export class CreateUserDto extends CommonUserDto {
     @IsString()
     @IsOptional()
     name: string;
+
+    @IsString()
+    @IsOptional()
+    fullName: string;
 }
 

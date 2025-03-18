@@ -27,6 +27,7 @@ const Login: TPage = () => {
 
   const onSubmit = async (formData: TSchema) => {
     const profile = await login({ ...formData }).unwrap()
+    console.log("profile",profile);
     setUser(profile)
   }
 

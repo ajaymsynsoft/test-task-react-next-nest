@@ -18,8 +18,7 @@ export default function Sidebar() {
   // const name = profile.role === 'admin' ? organization.organizationName : `${profile.firstName} ${profile.lastName}`
 
   return (
-    <Stack component="aside" sx={style.root}>
-      Sidebarerer+++
+    <Stack component="aside" sx={style.root}>   
       {/* LOGO */}
       <Stack sx={style.logoContainer}>
         <Logo />
@@ -37,15 +36,15 @@ export default function Sidebar() {
 
       {/* PROFILE */}
       <Stack sx={style.profileContainer}>
-        {/* <Stack sx={style.profileBox}>
+        <Stack sx={style.profileBox}>
           <Avatar sx={style.circleSize}>{profile.role === 'admin' && <MdCorporateFare className="icon-xl" />}</Avatar>
           <Stack overflow="hidden" gap="1px">
-            <Typography color="text.primary" className="line-1" fontWeight={500} title={name}>
-              {name}
+            <Typography color="text.primary" className="line-1" fontWeight={500} title={profile.name}>
+              {profile.name}
             </Typography>
             <Typography variant="body2">{formatToTitleCase(profile.role)}</Typography>
           </Stack>
-        </Stack> */}
+        </Stack>
         <Button sx={style.logoutBtn} endIcon={<MdOutlineLogout />} onClick={() => dispatch(handleLogout())}>
           Logout
         </Button>

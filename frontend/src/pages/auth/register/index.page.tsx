@@ -5,19 +5,20 @@ import { LoadingButton } from '@mui/lab'
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Link as MuiLink, IconButton, Stack, Typography, Container, Grid } from '@mui/material'
-
+import { useRouter } from 'next/router'
 import InputField from '@/components/_ui/inputField/InputField.component'
 import { style } from './Register.style'
-import { TPage } from '@/types'
+import { Page } from '@/types'
 import { schema, TSchema } from './Register.config'
 import { setUser } from '../Auth.util'
 import { jsonToFormData } from '@/utils'
 import { useRegisterMutation } from '@/redux/api/auth.api'
 
-const Register: TPage = () => {
+const Register: Page = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
   const [register] = useRegisterMutation()
+  const router = useRouter()
 
   const {
     control,
@@ -29,12 +30,12 @@ const Register: TPage = () => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = async () => {
-    // TODO: update it
-    const formData = schema.validateSync(getValues())
-    const profile = await register(jsonToFormData(formData)).unwrap()
+  const onSubmit = async (formData: TSchema) => {
+    // TODO: update it   
+    const profile = await register({ ...formData }).unwrap()
     // setUser(profile)
     reset()
+    router.push(`/auth/login`)
   }
 
   return (
@@ -65,6 +66,10 @@ const Register: TPage = () => {
             {/* Email */}
             <Grid item xs={12} sm={6}>
               <InputField name="email" label="Email *" control={control} />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <InputField name="fullName" label="Name *" control={control} />
             </Grid>
 
 
@@ -112,7 +117,7 @@ const Register: TPage = () => {
 
 Register.rootLayoutProps = {
   pageType: 'auth',
-  title: 'Register Organization',
+  title: 'Register Buyer',
 }
 
 export default Register
