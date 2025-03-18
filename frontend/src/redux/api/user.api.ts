@@ -2,17 +2,11 @@ import { removeCookie } from '@/utils'
 import { updateProfile } from '../slice/layout.slice'
 import { api } from './api.config'
 import { ProfileDTO } from '@/dto'
-import { Module } from '@/types'
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    profile: builder.query<ProfileDTO & { modules: Record<string, Module> }, void>({
-      query: () => '/auth/getProfile',  
-      transformResponse(response: any) {   
-        return {
-          ...response,         
-        }
-      },
+    profile: builder.query<ProfileDTO, void>({
+      query: () => '/auth/getProfile',
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         await queryFulfilled
           .then(({ data }) => dispatch(updateProfile(data)))

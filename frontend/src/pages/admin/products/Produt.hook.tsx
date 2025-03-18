@@ -2,20 +2,21 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
 import { Chip, Link as MuiLink } from '@mui/material'
-import { MdDelete, MdEdit, MdUpdate } from 'react-icons/md'
+import { MdDelete, MdEdit } from 'react-icons/md'
 import { useRouter } from 'next/router'
 
 import ConfirmationPopup from '@/components/confirmationPopup/ConfirmationPopup.component'
 import { formatToTitleCase, getStatusColor } from '@/utils'
 import { ProductDTO } from '@/dto'
 import { useDeleteProductMutation, useUpdateProductMutation } from '@/redux/api/admin/products.api'
+import { IoMdRefresh } from 'react-icons/io'
 
 export const useColumns = () => {
   const router = useRouter()
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
   const [updateItemId, setUpdateItemId] = useState<number | null>(null)
   const [deleteProduct, { isLoading }] = useDeleteProductMutation()
-  const [updateProduct, { isUpdateLoading }] = useUpdateProductMutation()
+  const [updateProduct, updateProductApiState] = useUpdateProductMutation()
 
   const columns: GridColDef<ProductDTO>[] = [
     {
@@ -32,8 +33,9 @@ export const useColumns = () => {
     },
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: 'Product Name',
       sortable: false,
+      flex: 1,
       minWidth: 200,
       renderCell: ({ row }) => `${row.name}`,
     },
@@ -48,14 +50,13 @@ export const useColumns = () => {
       field: 'stock',
       headerName: 'Stock',
       sortable: false,
-      flex: 1,
-      minWidth: 200,
+      minWidth: 100,
     },
     {
       field: 'price',
       headerName: 'Price',
       sortable: false,
-      minWidth: 140,
+      minWidth: 100,
     },
     {
       field: 'status',
@@ -77,7 +78,6 @@ export const useColumns = () => {
       getActions: (params) => {
         const actions = []
         actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/products/edit/${params.id}`)} icon={<MdEdit />} />)
-        // actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/products/edit/${params.id}`)} icon={<MdEdit />} />)
 
         actions.push(
           <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
@@ -98,13 +98,13 @@ export const useColumns = () => {
         )
         if (params.row.status == 'active') {
           actions.push(
-            <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdDelete />} onClick={() => setUpdateItemId(params.row.id)} />,
+            <GridActionsCellItem showInMenu key="update" label="Change Status" icon={<IoMdRefresh />} onClick={() => setUpdateItemId(params.row.id)} />,
             <ConfirmationPopup
               key="updatePopup"
               heading="Update product"
               subheading={`Sure to mark as phase out "${params.row.name}" product?`}
               acceptButtonText="Done"
-              loading={isUpdateLoading}
+              loading={updateProductApiState.isLoading}
               open={params.id === updateItemId}
               onCancel={() => setUpdateItemId(null)}
               onAccept={() =>
@@ -116,13 +116,13 @@ export const useColumns = () => {
           )
         } else {
           actions.push(
-            <GridActionsCellItem showInMenu key="update" label="Update" icon={<MdUpdate />} onClick={() => setUpdateItemId(params.row.id)} />,
+            <GridActionsCellItem showInMenu key="update" label="Change Status" icon={<IoMdRefresh />} onClick={() => setUpdateItemId(params.row.id)} />,
             <ConfirmationPopup
               key="updatePopup"
               heading="Update product"
               subheading={`Sure to mark as active "${params.row.name}" product?`}
               acceptButtonText="Done"
-              loading={isUpdateLoading}
+              loading={updateProductApiState.isLoading}
               open={params.id === updateItemId}
               onCancel={() => setUpdateItemId(null)}
               onAccept={() =>

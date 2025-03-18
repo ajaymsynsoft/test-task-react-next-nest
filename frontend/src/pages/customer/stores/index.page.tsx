@@ -1,15 +1,16 @@
-import { Alert, Container, Grid, Stack, Pagination } from '@mui/material'
+import { Alert, Container, Stack, Pagination, Grid2 } from '@mui/material'
 
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import StoreCard from '@/components/_card/storeCard/StoreCard.component'
 import PageHeader from '@/components/pageHeader/PageHeader.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 import { useGetStoreListQuery } from '@/redux/api/customer.api'
 import { usePagination } from '@/hooks'
 
-const StoreList: Page = () => {
+const StoreList: TPage = () => {
   const { page, pageSize, setPaginationModel } = usePagination()
   const { data: stores, isLoading, isError, isUninitialized, isSuccess } = useGetStoreListQuery({ pageNo: page, pageSize })
+  console.log(stores)
 
   return (
     <>
@@ -20,13 +21,13 @@ const StoreList: Page = () => {
       <Container>
         <RenderContent error={isError} loading={isUninitialized || isLoading}>
           {stores?.list.length ? (
-            <Grid container spacing={3}>
+            <Grid2 container spacing={3}>
               {stores.list.map((item, index) => (
-                <Grid item xs={12} md={6} key={index}>
+                <Grid2 size={{ xs: 12, sm: 6 }} key={index}>
                   <StoreCard data={item} />
-                </Grid>
+                </Grid2>
               ))}
-            </Grid>
+            </Grid2>
           ) : (
             <Alert variant="outlined" severity="info">
               No stores available at the moment
@@ -35,7 +36,7 @@ const StoreList: Page = () => {
         </RenderContent>
         {isSuccess && stores.totalCount > 10 && (
           <Stack alignItems="center" justifyContent="flex-end" mt={4}>
-            <Pagination page={page} count={stores.totalCount / pageSize <= 1 ? 1 : stores.totalCount / pageSize} onChange={(_, page) => setPaginationModel({ page: page - 1, pageSize })} />
+            <Pagination page={page} count={stores.totalPages} onChange={(_, page) => setPaginationModel({ page: page - 1, pageSize })} />
           </Stack>
         )}
       </Container>

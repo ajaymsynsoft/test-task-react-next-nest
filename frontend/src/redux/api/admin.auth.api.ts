@@ -1,6 +1,5 @@
 import { api } from './api.config'
 import { AuthApiResponse } from '@/pages/admin/AdminAuth.type'
-import { OrganizationDTO } from '@/dto'
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -11,7 +10,7 @@ export const extendedApi = api.injectEndpoints({
         body,
         headers: { hideToast: 'true' },
       }),
-    }),   
+    }),
   }),
 })
 

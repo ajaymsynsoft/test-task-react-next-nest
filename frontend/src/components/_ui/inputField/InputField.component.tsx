@@ -3,7 +3,7 @@ import { Controller, FieldPath, FieldValues } from 'react-hook-form'
 
 import { InputFieldProps } from './InputField.type'
 
-export default function InputField<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>>(props: InputFieldProps<TFieldValues, TName>): JSX.Element {
+export default function InputField<TFieldValues extends FieldValues, TName extends FieldPath<TFieldValues>>(props: InputFieldProps<TFieldValues, TName>) {
   const { control, name, onChange, defaultValue, onBlur, ...restProps } = props
   const isNumber = restProps.type === 'number'
 

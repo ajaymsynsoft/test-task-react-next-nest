@@ -11,7 +11,7 @@ export const useAuth = ({ pageType, roles }: RootLayoutProps) => {
   const router = useRouter()
   const token = getCookie('token')
   const dispatch = useReduxDispatch()
-  const [loading, setLoading] = useState(pageType === 'public' ? false : true) 
+  const [loading, setLoading] = useState(pageType === 'public' ? false : true)
   const [error, setError] = useState(false)
   const [getProfile] = useLazyProfileQuery()
   const { isLoggedIn, profile } = useReduxSelector((state) => state.layout)
@@ -25,7 +25,7 @@ export const useAuth = ({ pageType, roles }: RootLayoutProps) => {
       try {
         if (!token) return
         // TODO: update it
-        const response = await getProfile(undefined, true).unwrap()       
+        const response = await getProfile(undefined, true).unwrap()
         dispatch(updateLoggedIn(true))
         setLoading(false)
       } catch (e) {
@@ -39,18 +39,15 @@ export const useAuth = ({ pageType, roles }: RootLayoutProps) => {
       if (!token && pageType === 'protected') await router.replace(`/auth/login?returnTo=${location.pathname}${location.search}${location.hash}`)
       else if (!token) setLoading(false)
       else if (token && pageType === 'auth' && isLoggedIn) await router.replace('/admin/home')
-      else if (pageType === 'protected' && isLoggedIn) {  
-       
+      else if (pageType === 'protected' && isLoggedIn) {
         setLoading(false)
       }
     })()
-  }, [router.pathname, isLoggedIn]) 
+  }, [router.pathname, isLoggedIn])
 
   return {
     isLoading: loading,
     isPermission: true,
     isError: error,
   }
-
-  
 }

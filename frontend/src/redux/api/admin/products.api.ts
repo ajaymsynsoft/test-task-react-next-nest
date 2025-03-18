@@ -4,15 +4,15 @@ import { ProductDTO } from '@/dto'
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    addProduct: builder.mutation<void, Omit<ProductDTO, 'id'> & { password: string }>({
+    addProduct: builder.mutation<void, Partial<ProductDTO>>({
       query: (body) => ({ url: '/admin/product', method: 'POST', body }),
       invalidatesTags: (result, error) => (!error ? [{ type: 'product', id: 'LIST' }] : []),
     }),
 
-    updateProduct: builder.mutation<void, Omit<ProductDTO, 'password'>>({
+    updateProduct: builder.mutation<void, Partial<ProductDTO>>({
       query: (body) => ({ url: `/admin/product/${body.id}`, method: 'PUT', body }),
       invalidatesTags: (result, error, { id }) => (!error ? [{ type: 'product', id }] : []),
-    }),   
+    }),
 
     deleteProduct: builder.mutation<void, number>({
       query: (id) => ({ url: `/admin/product/${id}`, method: 'DELETE' }),
@@ -33,7 +33,6 @@ export const extendedApi = api.injectEndpoints({
       query: (params) => ({ url: `/admin/product`, params }),
       providesTags: (result, error) => (!error ? [...result!.list.map(({ id }) => ({ type: 'product' as const, id })), { type: 'product', id: 'LIST' }] : [{ type: 'product', id: 'LIST' }]),
     }),
- 
   }),
 })
 

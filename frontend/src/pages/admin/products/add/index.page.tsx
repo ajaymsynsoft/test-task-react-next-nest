@@ -7,7 +7,6 @@ import ProductForm from '../components/productForm/ProductForm.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import { TPage } from '@/types'
 import { useGetProductListQuery } from '@/redux/api/admin/products.api'
-import { useReduxSelector } from '@/hooks'
 
 const AddProduct: TPage = () => {
   const router = useRouter()
@@ -27,7 +26,7 @@ const AddProduct: TPage = () => {
 
 AddProduct.rootLayoutProps = {
   title: 'Add Product',
-  pageType: 'protected', 
+  pageType: 'protected',
 }
 
 export default AddProduct

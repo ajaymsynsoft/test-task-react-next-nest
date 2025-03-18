@@ -12,11 +12,11 @@ export const extendedApi = api.injectEndpoints({
       }),
     }),
 
-    register: builder.mutation<AuthApiResponse, { email: string; password: string,fullName: string }>({
+    register: builder.mutation<AuthApiResponse, { email: string; password: string; fullName: string }>({
       query: (body) => ({
         url: '/auth/register',
         method: 'POST',
-        body,        
+        body,
         headers: { hideToast: 'true' },
       }),
     }),

@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { LoadingButton } from '@mui/lab'
-import { FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, Stack } from '@mui/material'
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md'
+import { FormControl, FormHelperText, Grid2, InputLabel, MenuItem, Select, Stack } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
@@ -17,7 +16,6 @@ import { formatToTitleCase } from '@/utils'
 
 export default function ProductForm({ isEditMode, data }: ProductFormProps) {
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const [addProduct] = useAddProductMutation()
   const [updateProduct] = useUpdateProductMutation()
@@ -33,7 +31,7 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
       isEditMode,
       ...(isEditMode && {
         name: data.name,
-        image_url: data.image_url,
+        imageUrl: data.imageUrl,
         price: data.price,
         stock: data.stock,
         storeId: data.storeId,
@@ -50,29 +48,29 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
   return (
     <RenderContent loading={isLoading} error={isError}>
       {storeList && (
-        <Grid container component="form" noValidate onSubmit={handleSubmit(onSubmit)} spacing={2}>
+        <Grid2 container component="form" noValidate onSubmit={handleSubmit(onSubmit)} spacing={2}>
           {/* Name  */}
-          <Grid item xs={12} sm={6}>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
             <InputField name="name" label="Name *" control={control} />
-          </Grid>
+          </Grid2>
 
           {/* Image Url */}
-          <Grid item xs={12} sm={6}>
-            <InputField name="image_url" label="Image Url" control={control} />
-          </Grid>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
+            <InputField name="imageUrl" label="Image Url" control={control} />
+          </Grid2>
 
           {/* Price */}
-          <Grid item xs={12} sm={6}>
-            <InputField name="price" label="Price *" control={control} disabled={isEditMode} />
-          </Grid>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
+            <InputField name="price" label="Price *" control={control} type="number" />
+          </Grid2>
 
           {/* Stock */}
-          <Grid item xs={12} sm={6}>
-            <InputField name="stock" label="Stock *" control={control} disabled={isEditMode} />
-          </Grid>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
+            <InputField name="stock" label="Stock *" control={control} type="number" />
+          </Grid2>
 
           {/* Store */}
-          <Grid item xs={12} sm={6}>
+          <Grid2 size={{ xs: 12, sm: 6 }}>
             <Controller
               name="storeId"
               control={control}
@@ -91,10 +89,10 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
                 </FormControl>
               )}
             />
-          </Grid>
+          </Grid2>
 
           {/* Footer */}
-          <Grid item xs={12}>
+          <Grid2 size={12}>
             <Stack direction="row" justifyContent="end" gap={1}>
               <LoadingButton variant="text" disabled={isSubmitting} onClick={() => router.push('/dashboard/staff')}>
                 Cancel
@@ -103,8 +101,8 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
                 {isEditMode ? 'Update' : 'Save'}
               </LoadingButton>
             </Stack>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       )}
     </RenderContent>
   )

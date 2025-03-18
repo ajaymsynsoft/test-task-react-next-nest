@@ -10,6 +10,7 @@ import { formatToTitleCase, getStatusColor } from '@/utils'
 import { StoreDTO } from '@/dto'
 import { useDeleteStoreMutation } from '@/redux/api/admin/stores.api'
 import { useReduxSelector } from '@/hooks'
+import moment from 'moment'
 
 export const useColumns = () => {
   const router = useRouter()
@@ -31,11 +32,18 @@ export const useColumns = () => {
     },
     {
       field: 'name',
-      headerName: 'Full Name',
+      headerName: 'Store Name',
       sortable: false,
       minWidth: 200,
       flex: 1,
       renderCell: ({ row }) => `${row.name}`,
+    },
+    {
+      field: 'date',
+      headerName: 'Create Date',
+      sortable: false,
+      minWidth: 200,
+      renderCell: ({ row }) => moment(row.createdAt).format('ll'),
     },
     {
       field: 'actions',
@@ -47,25 +55,7 @@ export const useColumns = () => {
       type: 'actions',
       getActions: (params) => {
         const actions = []
-        actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/stores/edit/${params.id}`)} icon={<MdEdit />} />)
-
-        //   actions.push(
-        //     <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
-        //     <ConfirmationPopup
-        //       key="deletePopup"
-        //       heading="Delete store"
-        //       subheading={`Sure to delete "${params.row.name}" store?`}
-        //       acceptButtonText="Delete"
-        //       loading={isLoading}
-        //       open={params.id === deleteItemId}
-        //       onCancel={() => setDeleteItemId(null)}
-        //       onAccept={() =>
-        //         deleteStaff(params.row.id)
-        //           .unwrap()
-        //           .then((_) => setDeleteItemId(null))
-        //       }
-        //     />,
-        //   )
+        actions.push(<GridActionsCellItem key="edit" label="Edit" onClick={(_) => router.push(`/admin/stores/edit/${params.id}`)} icon={<MdEdit />} />)
 
         return actions
       },

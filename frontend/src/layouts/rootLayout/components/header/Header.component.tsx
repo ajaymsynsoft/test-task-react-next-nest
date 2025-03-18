@@ -34,8 +34,12 @@ export default function Header() {
           ) : isLoggedIn ? (
             <>
               <Stack direction="row" height={1}>
-                <ButtonBase   href="/customer/stores" LinkComponent={Link} sx={style.navItem}>Stores</ButtonBase>
-                <ButtonBase  href="/customer/my-orders" LinkComponent={Link}  sx={style.navItem}>My Order</ButtonBase>
+                <ButtonBase href="/customer/stores" LinkComponent={Link} sx={style.navItem}>
+                  Stores
+                </ButtonBase>
+                <ButtonBase href="/customer/my-orders" LinkComponent={Link} sx={style.navItem}>
+                  My Order
+                </ButtonBase>
               </Stack>
               <Divider orientation="vertical" sx={style.divider} />
               <Stack component={ButtonBase} sx={style.profileBox} onClick={(e) => setProfileAnchorEl(e.currentTarget)}>

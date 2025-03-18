@@ -3,13 +3,13 @@ import { Container } from '@mui/material'
 
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
-import ProductForm from '../components/ProductForm/ProductForm.component'
+import ProductForm from '../components/productForm/ProductForm.component'
 import { TPage } from '@/types'
 import { useGetProductQuery } from '@/redux/api/admin/products.api'
 
 const EditProduct: TPage = () => {
   const router = useRouter()
-  const { isFetching, isError, data } = useGetProductQuery(Number(router.query.id))
+  const { isFetching, isError, data, isSuccess } = useGetProductQuery(Number(router.query.id))
 
   return (
     <>
@@ -17,7 +17,7 @@ const EditProduct: TPage = () => {
 
       <Container>
         <RenderContent loading={isFetching} error={isError}>
-          {data && <ProductForm isEditMode data={data} />}
+          {isSuccess && <ProductForm isEditMode data={data} />}
         </RenderContent>
       </Container>
     </>

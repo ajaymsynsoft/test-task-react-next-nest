@@ -4,12 +4,12 @@ import { StoreDTO } from '@/dto'
 
 export const extendedApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    addStore: builder.mutation<void, Omit<StoreDTO, 'id'> & { password: string }>({
+    addStore: builder.mutation<void, Partial<StoreDTO>>({
       query: (body) => ({ url: '/admin/store', method: 'POST', body }),
       invalidatesTags: (result, error) => (!error ? [{ type: 'store', id: 'LIST' }] : []),
     }),
 
-    updateStore: builder.mutation<void, Omit<StoreDTO, 'password'>>({
+    updateStore: builder.mutation<void, Partial<StoreDTO>>({
       query: (body) => ({ url: `/admin/store/${body.id}`, method: 'PUT', body }),
       invalidatesTags: (result, error, { id }) => (!error ? [{ type: 'store', id }] : []),
     }),
@@ -34,13 +34,11 @@ export const extendedApi = api.injectEndpoints({
       query: (params) => ({ url: `/admin/store`, params }),
       providesTags: (result, error) => (!error ? [...result!.list.map(({ id }) => ({ type: 'store' as const, id })), { type: 'store', id: 'LIST' }] : [{ type: 'store', id: 'LIST' }]),
     }),
- 
+
     getAllStoreList: builder.query<{ id: number; name: string }[], void>({
       query: () => '/admin/store/list',
       providesTags: (result, error) => (!error ? [{ type: 'store', id: 'ROLE_LIST' }] : []),
     }),
-
-   
   }),
 })
 

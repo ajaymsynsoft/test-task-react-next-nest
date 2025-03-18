@@ -22,7 +22,6 @@ export const emailTest: TestConfig<string | undefined | null> = {
   message: 'Enter valid email',
 }
 
-
 export const passwordTest: TestConfig<string> = {
   name: 'validate',
   test: (value) => {

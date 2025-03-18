@@ -1,8 +1,7 @@
-import Link from 'next/link'
 import { useState } from 'react'
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid'
-import { Chip, Link as MuiLink } from '@mui/material'
-import { MdDelete, MdEdit } from 'react-icons/md'
+import { Chip } from '@mui/material'
+import { MdDelete } from 'react-icons/md'
 import { useRouter } from 'next/router'
 
 import ConfirmationPopup from '@/components/confirmationPopup/ConfirmationPopup.component'
@@ -26,31 +25,33 @@ export const useColumns = () => {
       renderCell: ({ row }) => `#${row.id}`,
     },
     {
-      field: 'name',
-      headerName: 'Full Name',
-      sortable: false,
-      minWidth: 200,
-      renderCell: ({ row }) => `${row.name}`,
-    },
-    {
-      field: 'quantity',
-      headerName: 'Quantity',
+      field: 'product',
+      headerName: 'Product',
       sortable: false,
       flex: 1,
       minWidth: 200,
+      renderCell: ({ row }) => `${row.name}`,
     },
     {
       field: 'storeName',
       headerName: 'Store Name',
       sortable: false,
+      flex: 1,
       minWidth: 180,
       renderCell: ({ row }) => formatToTitleCase(row.store.name),
-    },    
+    },
+    {
+      field: 'quantity',
+      headerName: 'Quantity',
+      sortable: false,
+      minWidth: 100,
+      width: 100,
+    },
     {
       field: 'status',
       headerName: 'Status',
       sortable: false,
-      minWidth: 100,
+      minWidth: 150,
       renderCell: (params) => {
         return <Chip label={formatToTitleCase(params.value)} variant="outlined" color={getStatusColor(params.value)} />
       },
@@ -63,9 +64,9 @@ export const useColumns = () => {
       width: 80,
       align: 'center',
       type: 'actions',
-      getActions: (params) => {     
-        const actions = []      
-        if(params.row.status=='completed'){
+      getActions: (params) => {
+        const actions = []
+        if (params.row.status == 'completed') {
           actions.push(
             <GridActionsCellItem showInMenu key="return" label="Return" icon={<MdDelete />} onClick={() => setReturnItemId(params.row.id)} />,
             <ConfirmationPopup
@@ -77,13 +78,13 @@ export const useColumns = () => {
               open={params.id === returnItemId}
               onCancel={() => setReturnItemId(null)}
               onAccept={() =>
-                updateOrderStatus({id:params.row.id})
+                updateOrderStatus({ id: params.row.id })
                   .unwrap()
                   .then((_) => setReturnItemId(null))
               }
             />,
           )
-        }       
+        }
         return actions
       },
     },

@@ -35,12 +35,11 @@ export default function Sidebar() {
       {/* PROFILE */}
       <Stack sx={style.profileContainer}>
         <Stack sx={style.profileBox}>
-          <Avatar sx={style.circleSize}>{profile.role === 'admin' && <MdCorporateFare className="icon-xl" />}</Avatar>
+          <Avatar sx={style.circleSize} />
           <Stack overflow="hidden" gap="1px">
             <Typography color="text.primary" className="line-1" fontWeight={500} title={profile.name}>
               {profile.name}
             </Typography>
-            <Typography variant="body2">{formatToTitleCase(profile.role)}</Typography>
           </Stack>
         </Stack>
         <Button sx={style.logoutBtn} endIcon={<MdOutlineLogout />} onClick={() => dispatch(handleLogout())}>

@@ -1,5 +1,4 @@
 import { Style } from '@/types'
-import { alpha } from '@mui/material'
 
 export const style: Style = {
   root: {
@@ -26,7 +25,12 @@ export const style: Style = {
     position: 'relative',
     height: 1,
     bgcolor: 'divider',
-    minHeight: 250,
+    minHeight: 200,
+  },
+  thumbnailImg: {
+    position: 'absolute',
+    inset: 0,
+    objectFit: 'cover',
   },
   listItem: {
     gap: 1.5,
@@ -37,9 +41,7 @@ export const style: Style = {
   listItemLabel: {
     color: 'inherit',
   },
-  bookingButton: {
-    zIndex: 0,
-    border: 1,
-    borderColor: (theme) => alpha(theme.palette.primary.main, 0.1),
+  buyButton: {
+    fontWeight: 600,
   },
 }

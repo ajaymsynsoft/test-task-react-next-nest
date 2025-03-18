@@ -1,5 +1,5 @@
 {
-	"LDMS Page Component": {
+	"Page Component": {
 		"prefix": "page",
 		"body": [
 			"import { TPage } from '@/types'",
@@ -16,7 +16,7 @@
 			"export default $1"
 		],
 	},
-	"LDMS Component Style": {
+	"Component Style": {
 		"prefix": "css",
 		"body": [
 			"import { TStyle } from '@/types'",
