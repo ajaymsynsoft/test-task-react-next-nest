@@ -1,6 +1,6 @@
-import { TStyle } from '@/types'
+import { Style } from '@/types'
 
-export const style: TStyle = {
+export const style: Style = {
   root: {
     color: 'primary.main',
     opacity: '1 !important',

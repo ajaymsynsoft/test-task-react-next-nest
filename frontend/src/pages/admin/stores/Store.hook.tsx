@@ -16,7 +16,6 @@ export const useColumns = () => {
   const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
   const [deleteStaff, { isLoading }] = useDeleteStoreMutation()
 
-
   const columns: GridColDef<StoreDTO>[] = [
     {
       field: 'id',
@@ -35,8 +34,9 @@ export const useColumns = () => {
       headerName: 'Full Name',
       sortable: false,
       minWidth: 200,
+      flex: 1,
       renderCell: ({ row }) => `${row.name}`,
-    },    
+    },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -47,8 +47,8 @@ export const useColumns = () => {
       type: 'actions',
       getActions: (params) => {
         const actions = []
-          actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/stores/edit/${params.id}`)} icon={<MdEdit />} />)
-      
+        actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/stores/edit/${params.id}`)} icon={<MdEdit />} />)
+
         //   actions.push(
         //     <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,
         //     <ConfirmationPopup

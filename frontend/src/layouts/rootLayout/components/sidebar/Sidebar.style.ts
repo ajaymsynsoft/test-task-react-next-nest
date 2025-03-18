@@ -1,9 +1,8 @@
 import { Style } from '@/types'
-import { HEADER_HEIGHT, SIDEBAR_WIDTH } from '@/layouts/rootLayout/RootLayout.config'
 
 export const style: Style = {
   root: {
-    width: `${SIDEBAR_WIDTH}px`,
+    width: `var(--sidebar-width)`,
     borderRight: 1,
     borderColor: 'dividerDark',
     height: '100vh',
@@ -15,7 +14,7 @@ export const style: Style = {
   },
   logoContainer: {
     px: 2,
-    height: HEADER_HEIGHT,
+    height: 74,
     alignItems: 'center',
     flexDirection: 'row',
     borderBottom: 1,

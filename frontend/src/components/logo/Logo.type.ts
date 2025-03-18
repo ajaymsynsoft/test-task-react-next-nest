@@ -1,6 +1,5 @@
-import { SxProps } from '@mui/material'
+import { SxProps, Theme } from '@mui/material'
 
 export type LogoProps = {
-  sx?: SxProps
-  disableLink?: boolean
+  sx?: SxProps<Theme>
 }

@@ -1,5 +1,6 @@
 :root {
-  --sidebar-width: 319px;
+  --sidebar-width: 320px;
+  --line-height: 1.23;
 }
 
 *,
@@ -17,6 +18,7 @@ body * {
 #__next {
   min-height: 100vh;
   min-height: 100dvh;
+  display: flex;
 }
 
 a {

@@ -5,7 +5,6 @@ import { MdNotificationsNone, MdOutlineArrowBack } from 'react-icons/md'
 import { PageHeaderProps } from './PageHeader.type'
 import { usePage } from '@/hooks'
 import { style } from './PageHeader.style'
-import { HEADER_HEIGHT } from '@/layouts/rootLayout/RootLayout.config'
 
 export default function PageHeader(props: PageHeaderProps) {
   let { actions, heading, sx = {}, size = 'medium', count, backUrl, variant = 'border' } = props
@@ -16,7 +15,7 @@ export default function PageHeader(props: PageHeaderProps) {
   if (variant === 'border') {
     sx = {
       '--border-color': (theme) => theme.palette.dividerDark,
-      height: HEADER_HEIGHT,
+      height: 74,
       borderBottom: isMdUp ? 1 : '',
       borderColor: 'transparent',
       backdropFilter: 'blur(8px)',

@@ -1,6 +1,0 @@
-Update readme.md
-add favicon
-update PaginationApiResponse & PaginationApiParams types
-check components
-
-Update theme

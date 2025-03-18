@@ -42,7 +42,7 @@ const Login: TPage = () => {
       <Container className="section-spacing-my">
         <Stack component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={style.box}>
           <Stack gap={1.5}>
-            <Typography variant="display2" textAlign="center" fontWeight={700}>
+            <Typography variant="h1" textAlign="center" fontWeight={700}>
               Log In
             </Typography>
             <Typography textAlign="center">
@@ -60,9 +60,7 @@ const Login: TPage = () => {
               label="Password"
               type={showPassword ? 'text' : 'password'}
               control={control}
-              InputProps={{
-                endAdornment: <IconButton onClick={() => setShowPassword((v) => !v)}>{showPassword ? <MdVisibility /> : <MdVisibilityOff />}</IconButton>,
-              }}
+              slotProps={{ input: { endAdornment: <IconButton onClick={() => setShowPassword((v) => !v)}>{showPassword ? <MdVisibility /> : <MdVisibilityOff />}</IconButton> } }}
             />
             <MuiLink component={Link} href="/auth/forgot-password" underline="hover" sx={style.forgotPassword}>
               Forgot Password?
@@ -81,6 +79,8 @@ const Login: TPage = () => {
 Login.rootLayoutProps = {
   pageType: 'auth',
   title: 'Login',
+  footer: false,
+  header: false,
 }
 
 export default Login

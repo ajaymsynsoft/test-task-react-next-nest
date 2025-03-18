@@ -3,11 +3,11 @@ import { Container } from '@mui/material'
 
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
-import StoreForm from '../components/storeForm/StoreForm.component'
-import { Page } from '@/types'
-import { useGetStoreQuery } from '@/redux/api/admin/stores.api'
+import StaffForm from '../components/staffForm/StaffForm.component'
+import { TPage } from '@/types'
+import { useGetStaffQuery } from '@/redux/api/staff.api'
 
-const EditStore: Page = () => {
+const EditStaff: TPage = () => {
   const router = useRouter()
   const { isFetching, isError, data } = useGetStoreQuery(Number(router.query.id))
 
@@ -24,9 +24,9 @@ const EditStore: Page = () => {
   )
 }
 
-EditStore.rootLayoutProps = {
-  title: 'Edit Store',
-  pageType: 'protected'  
+EditStaff.rootLayoutProps = {
+  title: 'Edit Staff',
+  pageType: 'protected',
 }
 
 export default EditStore

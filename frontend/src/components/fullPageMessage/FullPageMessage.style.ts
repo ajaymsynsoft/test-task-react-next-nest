@@ -1,6 +1,6 @@
-import { TStyle } from '@/types'
+import { Style } from '@/types'
 
-export const style: TStyle = {
+export const style: Style = {
   root: {
     my: 10,
   },

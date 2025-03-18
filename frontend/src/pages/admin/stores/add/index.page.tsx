@@ -5,13 +5,13 @@ import { Container } from '@mui/material'
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import StoreForm from '../components/storeForm/StoreForm.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 import { useGetStoreListQuery } from '@/redux/api/admin/stores.api'
 import { useReduxSelector } from '@/hooks'
 
-const AddStore: Page = () => {
-  const router = useRouter()  
-  const { data, isFetching, isError, isSuccess } = useGetStoreListQuery({ pageNo: 1, pageSize: 10 }) 
+const AddStore: TPage = () => {
+  const router = useRouter()
+  const { data, isFetching, isError, isSuccess } = useGetStoreListQuery({ pageNo: 1, pageSize: 10 })
 
   return (
     <>
@@ -28,7 +28,7 @@ const AddStore: Page = () => {
 
 AddStore.rootLayoutProps = {
   title: 'Add Store',
-  pageType: 'protected', 
+  pageType: 'protected',
 }
 
 export default AddStore

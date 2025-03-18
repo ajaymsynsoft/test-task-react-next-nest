@@ -1,26 +1,31 @@
 import { Style } from '@/types'
-import { HEADER_HEIGHT } from '@/layouts/rootLayout/RootLayout.config'
+import { grey } from '@mui/material/colors'
 
 export const style: Style = {
   root: {
     borderBottom: 1,
     borderColor: 'divider',
-    mb: 'var(--header-bottom-margin)',
-    overflow: 'hidden',
   },
   container: {
     display: 'flex',
     gap: 3,
-    height: HEADER_HEIGHT,
+    minHeight: 66,
   },
   logoContainer: {
-    mr: 'auto',
     flexFlow: 'row',
-    alignItems: 'center',
+    mr: 'auto',
   },
   button: {
     py: 1,
     px: 2.5,
+  },
+  navItem: {
+    typography: 'body1',
+    px: 2,
+    fontWeight: 500,
+    ':hover': {
+      bgcolor: grey[100],
+    },
   },
   profileBox: {
     flexDirection: 'row',

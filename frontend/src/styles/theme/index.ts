@@ -7,7 +7,14 @@ import { overridesShadows } from './shadows'
 
 let theme = createTheme({
   palette: createPalette(),
-  typography: createTypography(),
+  typography: {
+    ...createTypography(),
+    subtitle1: undefined,
+    subtitle2: undefined,
+  },
+  shape: {
+    borderRadius: 8,
+  },
 })
 
 theme = createTheme(theme, {

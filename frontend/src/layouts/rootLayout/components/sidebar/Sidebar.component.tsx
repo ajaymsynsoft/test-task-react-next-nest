@@ -1,5 +1,5 @@
 import { MdCorporateFare, MdOutlineLogout } from 'react-icons/md'
-import { Avatar, List, Stack, Typography, Button, Divider } from '@mui/material'
+import { Avatar, List, Stack, Typography, Button } from '@mui/material'
 
 import Logo from '@/components/logo/Logo.component'
 import NavItem from '@/components/navItem/NavItem.component'
@@ -14,11 +14,9 @@ export default function Sidebar() {
   const sidebarOptions = useSidebarOptions()
   const dispatch = useReduxDispatch()
   const profile = useReduxSelector((state) => state.layout.profile)
- 
-  // const name = profile.role === 'admin' ? organization.organizationName : `${profile.firstName} ${profile.lastName}`
 
   return (
-    <Stack component="aside" sx={style.root}>   
+    <Stack component="aside" sx={style.root}>
       {/* LOGO */}
       <Stack sx={style.logoContainer}>
         <Logo />

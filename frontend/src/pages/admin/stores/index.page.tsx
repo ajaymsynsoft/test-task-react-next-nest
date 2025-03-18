@@ -5,12 +5,12 @@ import { DataGrid } from '@mui/x-data-grid'
 
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 import { useColumns } from './Store.hook'
 import { useGetStoreListQuery } from '@/redux/api/admin/stores.api'
 import { usePagination, useReduxSelector } from '@/hooks'
 
-const Stores: Page = () => {
+const Stores: TPage = () => {
   const columns = useColumns()
   const { paginationModel, setPaginationModel, page, pageSize } = usePagination()
   const { data, isFetching, isError, isLoading } = useGetStoreListQuery({ pageNo: page, pageSize })
@@ -21,11 +21,9 @@ const Stores: Page = () => {
         heading="Stores"
         count={data?.totalCount}
         actions={
-           (
-            <Button href="/admin/stores/add" variant="contained" startIcon={<MdAdd />} LinkComponent={Link}>
-              Add Store
-            </Button>
-          )
+          <Button href="/admin/stores/add" variant="contained" startIcon={<MdAdd />} LinkComponent={Link}>
+            Add Store
+          </Button>
         }
       />
 
@@ -40,7 +38,7 @@ const Stores: Page = () => {
 
 Stores.rootLayoutProps = {
   title: 'Stores',
-  pageType: 'protected' 
+  pageType: 'protected',
 }
 
 export default Stores

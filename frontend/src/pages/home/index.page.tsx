@@ -1,12 +1,17 @@
-import { Page } from '@/types'
+import { TPage } from '@/types'
+import { Container, Typography } from '@mui/material'
 
-const Home: Page = () => {
-  return 'Home'
+const Home: TPage = () => {
+  return (
+    <Container>
+      <Typography mt={5}>Home</Typography>
+    </Container>
+  )
 }
 
 Home.rootLayoutProps = {
   pageType: 'protected',
-  title: 'Home',
+  title: '',
 }
 
 export default Home

@@ -5,11 +5,11 @@ import { Container } from '@mui/material'
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import ProductForm from '../components/productForm/ProductForm.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 import { useGetProductListQuery } from '@/redux/api/admin/products.api'
 import { useReduxSelector } from '@/hooks'
 
-const AddProduct: Page = () => {
+const AddProduct: TPage = () => {
   const router = useRouter()
   const { data, isFetching, isError, isSuccess } = useGetProductListQuery({ pageNo: 1, pageSize: 10 })
 

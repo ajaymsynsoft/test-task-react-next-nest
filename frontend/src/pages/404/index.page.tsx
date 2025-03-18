@@ -2,9 +2,9 @@ import Link from 'next/link'
 import { Button } from '@mui/material'
 
 import FullPageMessage from '@/components/fullPageMessage/FullPageMessage.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 
-const PageNotFound: Page = () => {
+const PageNotFound: TPage = () => {
   return (
     <FullPageMessage
       heading="404: Page Not Found"

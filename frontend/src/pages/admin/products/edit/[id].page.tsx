@@ -4,10 +4,10 @@ import { Container } from '@mui/material'
 import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import ProductForm from '../components/ProductForm/ProductForm.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 import { useGetProductQuery } from '@/redux/api/admin/products.api'
 
-const EditProduct: Page = () => {
+const EditProduct: TPage = () => {
   const router = useRouter()
   const { isFetching, isError, data } = useGetProductQuery(Number(router.query.id))
 
@@ -26,7 +26,7 @@ const EditProduct: Page = () => {
 
 EditProduct.rootLayoutProps = {
   title: 'Edit Product',
-  pageType: 'protected' 
+  pageType: 'protected',
 }
 
 export default EditProduct

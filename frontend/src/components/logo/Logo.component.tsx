@@ -1,16 +1,15 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { Stack } from '@mui/material'
+import { Stack, SxProps, Typography } from '@mui/material'
 
-import logo from '@/../public/images/logo.svg'
+import { style } from './Logo.style'
 import { LogoProps } from './Logo.type'
 
-export default function Logo(props: LogoProps) {
-  const { sx = {}, disableLink } = props
-
+export default function Logo({ sx = {} }: LogoProps) {
   return (
-    <Stack className="logo-box" sx={{ width: 'max-content', ...sx }} {...(!disableLink ? { component: Link, href: '/' } : {})}>
-      <Image src={logo} alt="logo" priority />
+    <Stack sx={{ ...style.root, ...sx } as SxProps}>
+      <Stack sx={style.logo}>
+        <Stack sx={style.iconBox}>S</Stack>
+        <Typography sx={style.name}>SnapBuy</Typography>
+      </Stack>
     </Stack>
   )
 }

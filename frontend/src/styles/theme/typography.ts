@@ -1,4 +1,4 @@
-import { Theme, ThemeOptions } from '@mui/material'
+import { Theme } from '@mui/material'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 
 const plusJakartaSansFont = Plus_Jakarta_Sans({
@@ -10,38 +10,28 @@ export const createTypography = () => {
   return {
     fontFamily: `${plusJakartaSansFont.style.fontFamily}, system-ui, sans-serif`,
     h1: {
-      fontSize: 24,
+      fontSize: '1.375rem',
       fontWeight: 700,
-      lineHeight: 1.2,
+      lineHeight: 'var(--line-height)',
     },
     h2: {
-      fontSize: 20,
+      fontSize: '1.125rem',
       fontWeight: 700,
-      lineHeight: 1.2,
+      lineHeight: 'var(--line-height)',
     },
     h3: {
-      fontSize: 18,
-      fontWeight: 600,
-      lineHeight: 1.2,
-    },
-    h4: {
-      fontSize: 17,
-      fontWeight: 500,
-      lineHeight: 1.2,
+      fontSize: '0.96875rem',
+      fontWeight: 650,
+      lineHeight: 'var(--line-height)',
     },
     body1: {
-      fontSize: 16,
-      fontWeight: 500,
-      lineHeight: 1.2,
+      fontSize: '.875rem',
+      lineHeight: 'var(--line-height)',
     },
     body2: {
-      fontSize: 14,
+      fontSize: '.75rem',
       fontWeight: 500,
-      lineHeight: 1.2,
-    },
-    button: {
-      textTransform: 'unset',
-      lineHeight: 1.2,
+      lineHeight: 'var(--line-height)',
     },
   } as Theme['typography']
 }
@@ -57,14 +47,11 @@ export const overridesTypography = (theme: Theme) => {
     h3: theme.unstable_sx({
       color: 'text.secondary',
     }),
-    h4: theme.unstable_sx({
-      color: 'text.secondary',
-    }),
     body1: theme.unstable_sx({
       color: 'text.secondary',
     }),
     body2: theme.unstable_sx({
-      color: 'text.secondary',
+      color: 'text.disabled',
     }),
-  } as ThemeOptions['typography']
+  } as Theme['typography']
 }

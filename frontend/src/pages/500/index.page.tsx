@@ -1,7 +1,7 @@
 import FullPageMessage from '@/components/fullPageMessage/FullPageMessage.component'
-import { Page } from '@/types'
+import { TPage } from '@/types'
 
-const PageNotFound: Page = () => {
+const PageNotFound: TPage = () => {
   return <FullPageMessage heading="500: Server-side error occurred" />
 }
 
