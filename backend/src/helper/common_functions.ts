@@ -58,6 +58,66 @@ export const generateToken = (userId: number | bigint, roleId: number, configSer
     return token;
 }
 
+export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, searchOptions, modules) {
+    try {
+        let { page = 1, limit = 10, sortOrder = 'desc', searchVal, sortBy, searchByStatus } = paginationDto;
+        const offset = (page - 1) * limit;
+        let order
+
+        searchVal = searchVal && searchVal.length === 0 ? undefined : searchVal;
+        sortBy = sortBy && sortBy.length === 0 ? undefined : sortBy;
+        sortOrder = sortOrder && sortOrder.length === 0 ? 'desc' : sortOrder;
+
+        if (sortBy) {
+            // order = [[literal(`JSON_EXTRACT(${sortBy}, '$.en')`), sortOrder]];
+            order = [[sortBy, sortOrder]];
+
+        } else {
+            sortOrder = 'desc'
+            order = [['createdAt', sortOrder]];
+        }
+
+        let whereClause: any = {};       
+
+        const rows = await Model.findAll({
+            ...searchOptions,
+            where: whereClause,
+            offset,
+            limit: +limit,
+            order,
+        });
+
+        let totalItems
+
+
+        totalItems = await Model.count({ distinct: true, col: 'id', where: whereClause, ...searchOptions });
+
+        let totalCount = 0
+
+        if (modules === 'ShippingRequestModule') {
+            totalCount = await Model.count({ distinct: true, col: 'id' });
+        } else {
+            totalCount = await Model.count({ distinct: true, col: 'id', where: whereClause });
+        }
+
+        return {
+            statusCode: HttpStatus.OK,
+            message: globalMsg.common.FETCH_DATA_SUCCESSFULLY,
+            data: {
+                list: rows,
+                totalItems,
+                currentPage: +page,
+                totalPages: Math.ceil(totalItems / limit),
+                totalCount
+            }
+
+        };
+
+    } catch (error) {
+        handleSequelizeError(error)
+    }
+}
+
 export const createEntity = async (ModelClass, createDto, message = globalMsg.common.CREATED_SUCCESSFULLY) => {
     try {
         const newData = await ModelClass.create(createDto);
