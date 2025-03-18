@@ -6,6 +6,11 @@ import { Store } from 'src/models/store.entity';
 @Injectable()
 export class StoreService {
   async create(createStoreDto: CreateStoreDto,userId:number) {   
+    const store = await Store.findOne({where:{name:createStoreDto.name}});
+
+    if (store) {
+      throw new NotFoundException(`Store already exits with name: ${createStoreDto.name}`);
+    }  
     return await Store.create({...createStoreDto,userId});
   }
 
@@ -25,15 +30,22 @@ export class StoreService {
     };
   }
 
+  async getAllList(userId:number) { 
+    console.log("userId",userId);        
+    const  rows = await Store.findAll({
+      where:{ userId }     
+    });
+
+    return rows;
+  }
+
   async findOne(id: number, userId:number) {
     const store = await Store.findOne({where:{id,userId}});
 
     if (!store) {
       throw new NotFoundException(`Store with ID ${id} not found`);
     }   
-    return {
-      store,
-    };
+    return store;
   }
 
   async update(id: number, updateStoreDto: UpdateStoreDto, userId:number) {

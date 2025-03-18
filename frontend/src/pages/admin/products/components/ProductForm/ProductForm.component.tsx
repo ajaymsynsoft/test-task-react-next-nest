@@ -11,6 +11,7 @@ import InputField from '@/components/_ui/inputField/InputField.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import { TSchema, schema } from './ProductForm.config'
 import { useAddProductMutation, useUpdateProductMutation } from '@/redux/api/admin/products.api'
+import { useGetAllStoreListQuery } from '@/redux/api/admin/stores.api'
 import { ProductFormProps } from './ProductForm.type'
 import { formatToTitleCase } from '@/utils'
 
@@ -20,7 +21,7 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
 
   const [addProduct] = useAddProductMutation()
   const [updateProduct] = useUpdateProductMutation()
-  const { data: staffRoleList, isLoading, isError } = useGetStoreListQuery()
+  const { data: storeList, isLoading, isError } = useGetAllStoreListQuery()
 
   const {
     handleSubmit,
@@ -31,57 +32,56 @@ export default function ProductForm({ isEditMode, data }: ProductFormProps) {
     defaultValues: {
       isEditMode,
       ...(isEditMode && {
-        email: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        phone: data.phone,
-        status: data.status,
-        roleId: data.roleId,
+        name: data.name,
+        image_url: data.image_url,
+        price: data.price,
+        stock: data.stock,     
+        storeId: data.storeId,
       }),
     },
   })
 
   const onSubmit = async ({ ...formData }: TSchema) => {
     if (isEditMode) await updateProduct({ ...formData, id: Number(router.query.id) }).unwrap()
-    else await addProduct({ ...formData }).unwrap()
+    else await addProduct({ ...formData, status:'active' }).unwrap()
     router.push('/admin/products')
   }
 
   return (
     <RenderContent loading={isLoading} error={isError}>
-      {staffRoleList && (
+      {storeList && (
         <Grid container component="form" noValidate onSubmit={handleSubmit(onSubmit)} spacing={2}>
           {/* First Name  */}
           <Grid item xs={12} sm={6}>
-            <InputField name="firstName" label="First name *" control={control} />
+            <InputField name="name" label="Name *" control={control} />
           </Grid>
 
           {/* Last Name */}
           <Grid item xs={12} sm={6}>
-            <InputField name="lastName" label="Last name *" control={control} />
+            <InputField name="image_url" label="Image Url" control={control} />
           </Grid>
 
           {/* Email */}
           <Grid item xs={12} sm={6}>
-            <InputField name="email" label="Email *" control={control} disabled={isEditMode} />
+            <InputField name="price" label="Price *" control={control} disabled={isEditMode} />
           </Grid>
 
           {/* Phone */}
           <Grid item xs={12} sm={6}>
-          <InputField name="email" label="Email *" control={control} disabled={isEditMode} />
+          <InputField name="stock" label="Stock *" control={control} disabled={isEditMode} />
           </Grid>
 
           {/* Role */}
           <Grid item xs={12} sm={6}>
             <Controller
-              name="roleId"
+              name="storeId"
               control={control}
               defaultValue={'' as any}
               render={({ fieldState: { error }, field: { ref, ...restField } }) => (
                 <FormControl error={!!error}>
                   <InputLabel>Role *</InputLabel>
                   <Select {...restField} inputRef={ref} label="Role *">
-                    {staffRoleList.map((item, index) => (
+                    {storeList.map((item, index) => (
                       <MenuItem value={item.id} key={index}>
                         {formatToTitleCase(item.name)}
                       </MenuItem>

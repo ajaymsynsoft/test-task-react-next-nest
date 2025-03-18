@@ -11,22 +11,11 @@ import { useReduxSelector } from '@/hooks'
 
 const AddProduct: Page = () => {
   const router = useRouter()
-  // const { plan } = useReduxSelector((state) => state.subscription)
   const { data, isFetching, isError, isSuccess } = useGetProductListQuery({ pageNo: 1, pageSize: 10 })
-
-  // if (isSuccess && data?.totalRecords >= plan.noOfStaffs) {
-  //   toast.error(`You can add upto ${plan.noOfStaffs} staff or upgrade your subscription plan`, {
-  //     duration: 6000,
-  //     position: 'top-center',
-  //   })
-  //   router.replace('/dashboard/staff')
-  //   return null
-  // }
 
   return (
     <>
-      <PageHeader heading="Add Staff" backUrl="/dashboard/staff" />
-
+      <PageHeader heading="Add Product" backUrl="/admin/products" />
       <Container>
         <RenderContent loading={isFetching} error={isError}>
           <ProductForm isEditMode={false} />
@@ -37,12 +26,8 @@ const AddProduct: Page = () => {
 }
 
 AddProduct.rootLayoutProps = {
-  title: 'Add Staff',
-  pageType: 'protected',
-  module: {
-    id: 2,
-    permission: 'add',
-  },
+  title: 'Add Product',
+  pageType: 'protected', 
 }
 
 export default AddProduct

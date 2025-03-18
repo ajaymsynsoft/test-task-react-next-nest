@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, Request  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, Request, Put  } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
@@ -19,6 +19,11 @@ export class StoreController {
     return this.storeService.create(createStoreDto,req.user.id);
   }
 
+  @Get('list')
+  getStoresList(@Request() req) {  
+    return this.storeService.getAllList(req.user.id);
+  }
+
   @Get()
   findAll(@Request() req, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
     return this.storeService.findAll(Number(page), Number(limit),req.user.id);
@@ -29,7 +34,7 @@ export class StoreController {
     return this.storeService.findOne(+id,req.user.id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Request() req, @Param('id') id: string, @Body() updateStoreDto: UpdateStoreDto) {
     return this.storeService.update(+id, updateStoreDto,req.user.id);
   }
@@ -38,4 +43,6 @@ export class StoreController {
   remove(@Request() req, @Param('id') id: string) {
     return this.storeService.remove(+id,req.user.id);
   }
+
+  
 }

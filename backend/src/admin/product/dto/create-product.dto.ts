@@ -7,9 +7,7 @@ export class CreateProductDto {
     @IsNotEmpty()
     name: string;
 
-    @ApiProperty({ example: 'https://example.com/image.jpg', description: 'The image URL of the product' })
-    @IsString()
-    @IsNotEmpty()
+    @ApiProperty({ example: 'https://example.com/image.jpg', description: 'The image URL of the product' })    
     imageUrl: string;
 
     @ApiProperty({ example: 999.99, description: 'The price of the product' })
@@ -18,8 +16,7 @@ export class CreateProductDto {
     price: number;
 
     @ApiProperty({ example: 'active', enum: ['active', 'inActive'], description: 'The status of the product' })
-    @IsEnum(['active', 'inActive'])
-    @IsNotEmpty()
+    @IsEnum(['active', 'inActive'])  
     status: 'active' | 'inActive';
 
     @ApiProperty({ example: 2, description: 'The store ID where the product belongs' })

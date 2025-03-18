@@ -25,7 +25,7 @@ export const useColumns = () => {
       minWidth: 85,
       width: 85,
       renderCell: ({ row }) => (
-        <MuiLink component={Link} href={`/admin/store/edit/${row.id}`}>
+        <MuiLink component={Link} href={`/admin/stores/edit/${row.id}`}>
           #{row.id}
         </MuiLink>
       ),
@@ -47,9 +47,7 @@ export const useColumns = () => {
       type: 'actions',
       getActions: (params) => {
         const actions = []
-
-        //  actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/dashboard/staff/edit/${params.id}`)} icon={<MdEdit />} />)
-
+          actions.push(<GridActionsCellItem showInMenu key="edit" label="Edit" onClick={(_) => router.push(`/admin/stores/edit/${params.id}`)} icon={<MdEdit />} />)
       
         //   actions.push(
         //     <GridActionsCellItem showInMenu key="delete" label="Delete" icon={<MdDelete />} onClick={() => setDeleteItemId(params.row.id)} />,

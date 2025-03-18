@@ -8,7 +8,11 @@ import globalMsg from 'src/globalMsg';
 @Injectable()
 export class ProductService {
   async createProduct(dto: CreateProductDto, userId) {
+    const product = await Product.findOne({where:{name:dto.name}});  
     let newData = { ...dto, userId }
+    if (product) {
+      throw new NotFoundException(`Product already exists with ${dto.name}`);
+    }  
     const createDta = await createEntity(Product, newData);
     return {
       statusCode: HttpStatus.OK,

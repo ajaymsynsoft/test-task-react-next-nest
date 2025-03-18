@@ -8,7 +8,7 @@ export class Product extends Model<Product> {
     @Column({ type: DataType.STRING, allowNull: false })
     name: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
+    @Column({ type: DataType.STRING, allowNull: true })
     imageUrl: string;
 
     @Column({ type: DataType.DECIMAL(10, 2), allowNull: false })
@@ -16,6 +16,9 @@ export class Product extends Model<Product> {
 
     @Column({ type: DataType.ENUM('active', 'inActive'), allowNull: false, defaultValue: 'active' })
     status: 'active' | 'inActive';
+
+    @Column({ type: DataType.INTEGER, allowNull: false, defaultValue: 0 })
+    stock: number;
 
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER, allowNull: false })
