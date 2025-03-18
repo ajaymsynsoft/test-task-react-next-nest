@@ -9,19 +9,19 @@ import { usePagination } from '@/hooks'
 
 const StoreList: Page = () => {
   const { page, pageSize, setPaginationModel } = usePagination()
-  const { data: events, isLoading, isError, isUninitialized, isSuccess } = useGetStoreListQuery({ pageNo: page, pageSize })
+  const { data: stores, isLoading, isError, isUninitialized, isSuccess } = useGetStoreListQuery({ pageNo: page, pageSize })
 
   return (
     <>
       {/* Page Header */}
-      <PageHeader heading="Events" variant="no-border" count={events?.totalCount} />
+      <PageHeader heading="Store List" variant="no-border" count={stores?.totalCount} />
 
-      {/* Events */}
+      {/* Store */}
       <Container>
         <RenderContent error={isError} loading={isUninitialized || isLoading}>
-          {events?.list.length ? (
+          {stores?.list.length ? (
             <Grid container spacing={3}>
-              {events.list.map((item, index) => (
+              {stores.list.map((item, index) => (
                 <Grid item xs={12} md={6} key={index}>
                   <StoreCard data={item} />
                 </Grid>
@@ -33,9 +33,9 @@ const StoreList: Page = () => {
             </Alert>
           )}
         </RenderContent>
-        {isSuccess && events.totalCount > 10 && (
+        {isSuccess && stores.totalCount > 10 && (
           <Stack alignItems="center" justifyContent="flex-end" mt={4}>
-            <Pagination page={page} count={events.totalCount / pageSize <= 1 ? 1 : events.totalCount / pageSize} onChange={(_, page) => setPaginationModel({ page: page - 1, pageSize })} />
+            <Pagination page={page} count={stores.totalCount / pageSize <= 1 ? 1 : stores.totalCount / pageSize} onChange={(_, page) => setPaginationModel({ page: page - 1, pageSize })} />
           </Stack>
         )}
       </Container>

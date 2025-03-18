@@ -7,14 +7,14 @@ import PageHeader from '@/components/pageHeader/PageHeader.component'
 import RenderContent from '@/components/renderContent/RenderContent.component'
 import { Page } from '@/types'
 import { useColumns } from './Order.hook'
-import { useGetProductListQuery } from '@/redux/api/customer.api'
+import { useGetOrderListQuery } from '@/redux/api/customer.api'
 import { usePagination, useReduxSelector } from '@/hooks'
 
 const MyOrders: Page = () => {
   const columns = useColumns()
   // const { modules } = useReduxSelector((state) => state.layout.profile)
   const { paginationModel, setPaginationModel, page, pageSize } = usePagination()
-  const { data, isFetching, isError, isLoading } = useGetProductListQuery({ pageNo: page, pageSize })
+  const { data, isFetching, isError, isLoading } = useGetOrderListQuery({ pageNo: page, pageSize })
 
   return (
     <>
