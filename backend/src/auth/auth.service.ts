@@ -67,12 +67,9 @@ export class AuthService {
       }
 
       user = user.toJSON();
-      console.log(user)
       if (user.userRoles?.roleId !== role.id) {
         throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
       }
-
-      console.log(userDto.password, user.password);
 
       const isPasswordValid = await bcrypt.compare(userDto.password, user.password);
       if (!isPasswordValid) {

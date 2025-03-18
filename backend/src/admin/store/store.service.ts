@@ -21,7 +21,6 @@ export class StoreService {
   }
 
   async getAllList(userId: number) {
-    console.log("userId", userId);
     const rows = await Store.findAll({
       where: { userId }
     });
