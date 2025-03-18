@@ -4,6 +4,7 @@ export interface ProductDTO {
   image_url?: string
   price: string
   stock: string
-  storeId: number
+  storeId: number,
+  store?:any,
   status: 'active' | 'inActive'
 }

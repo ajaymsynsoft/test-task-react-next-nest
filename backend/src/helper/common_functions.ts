@@ -7,6 +7,7 @@ import { Op, Sequelize } from "sequelize";
 import * as jwt from 'jsonwebtoken';
 import { RoleMst } from "src/models/roleMst.entity";
 import { ConfigService } from "@nestjs/config";
+import { Store } from 'src/models/store.entity';
 
 export const idValidationDto = (id) => {
     const parsedId = +id;
@@ -78,6 +79,7 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
         }
 
         let whereClause: any = {};
+        let include: any = [];
 
         if (userId) {
             whereClause = {
@@ -93,12 +95,20 @@ export async function findEntitiesWithPaginationAndSearch(Model, paginationDto, 
             }
         }
 
+        if (modules == 'AdminProductsModule') {
+            include.push({
+                model: Store,
+                attributes: ['name'],
+              })
+        }
+
         const rows = await Model.findAll({
             ...searchOptions,
             where: whereClause,
             offset,
             limit: +limit,
             order,
+            include
         });
 
         let totalItems

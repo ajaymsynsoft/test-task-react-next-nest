@@ -38,6 +38,13 @@ export const useColumns = () => {
       renderCell: ({ row }) => `${row.name}`,
     },
     {
+      field: 'storeName',
+      headerName: 'Store Name',
+      sortable: false,
+      minWidth: 200,
+      renderCell: ({ row }) => `${row.store.name}`,
+    },
+    {
       field: 'stock',
       headerName: 'Stock',
       sortable: false,
