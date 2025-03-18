@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start -p 9798",
     "lint": "next lint",
+    "deploy": "pm2 startOrRestart ecosystem.config.js",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
