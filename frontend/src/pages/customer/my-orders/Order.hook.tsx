@@ -5,14 +5,16 @@ import { Chip, Link as MuiLink } from '@mui/material'
 import { MdDelete, MdEdit } from 'react-icons/md'
 import { useRouter } from 'next/router'
 
-
+import ConfirmationPopup from '@/components/confirmationPopup/ConfirmationPopup.component'
 import { formatToTitleCase, getStatusColor } from '@/utils'
 import { OrderDTO } from '@/dto'
 import { useReduxSelector } from '@/hooks'
+import { useUpdateOrderMutation } from '@/redux/api/customer.api'
 
 export const useColumns = () => {
   const router = useRouter()
-  const [deleteItemId, setDeleteItemId] = useState<number | null>(null)
+  const [returnItemId, setReturnItemId] = useState<number | null>(null)
+  const [updateOrderStatus, { isLoading }] = useUpdateOrderMutation()
 
   const columns: GridColDef<OrderDTO>[] = [
     {
@@ -31,25 +33,19 @@ export const useColumns = () => {
       renderCell: ({ row }) => `${row.name}`,
     },
     {
-      field: 'email',
-      headerName: 'Email',
+      field: 'quantity',
+      headerName: 'Quantity',
       sortable: false,
       flex: 1,
       minWidth: 200,
     },
     {
-      field: 'role',
-      headerName: 'Role',
+      field: 'storeName',
+      headerName: 'Store Name',
       sortable: false,
       minWidth: 180,
-      renderCell: ({ row }) => formatToTitleCase(row.role!),
-    },
-    {
-      field: 'phone',
-      headerName: 'Phone',
-      sortable: false,
-      minWidth: 140,
-    },
+      renderCell: ({ row }) => formatToTitleCase(row.store.name),
+    },    
     {
       field: 'status',
       headerName: 'Status',
@@ -67,9 +63,28 @@ export const useColumns = () => {
       width: 80,
       align: 'center',
       type: 'actions',
-      getActions: (params) => {           
-
-        return []
+      getActions: (params) => {     
+        const actions = []      
+        if(params.row.status=='completed'){
+          actions.push(
+            <GridActionsCellItem showInMenu key="return" label="Return" icon={<MdDelete />} onClick={() => setReturnItemId(params.row.id)} />,
+            <ConfirmationPopup
+              key="deletePopup"
+              heading="Delete product"
+              subheading={`Sure to return "${params.row.name}" order?`}
+              acceptButtonText="Return"
+              loading={isLoading}
+              open={params.id === returnItemId}
+              onCancel={() => setReturnItemId(null)}
+              onAccept={() =>
+                updateOrderStatus({id:params.row.id})
+                  .unwrap()
+                  .then((_) => setReturnItemId(null))
+              }
+            />,
+          )
+        }       
+        return actions
       },
     },
   ]

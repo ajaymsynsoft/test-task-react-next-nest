@@ -1,6 +1,8 @@
 export interface OrderDTO {
     id: number
     name: string    
-    productId:number
+    productId:number,
+    store?:any,
+    status: 'completed' | 'return'
   }
   
