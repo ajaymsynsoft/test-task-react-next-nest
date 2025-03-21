@@ -1,19 +1,18 @@
 import { ConflictException, ForbiddenException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto, CommonUserDto } from './dto/create-auth.dto';
-import { handleSequelizeError } from 'src/helper/error-handler';
 import { User } from 'src/models/user.entity';
-import { generateToken } from 'src/helper/common_functions';
 import globalMsg from 'src/globalMsg';
 import { UserRoles } from 'src/models/userRoles.entity';
 import { ConfigService } from '@nestjs/config';
 import { RoleMst } from 'src/models/roleMst.entity';
 import { sequelize } from 'src/database/database.config';
+import { CommonService } from 'src/helper/common.service';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private configService: ConfigService) { }
+  constructor(private configService: ConfigService,private readonly commonService: CommonService) { }
 
   async register(userDto: CreateUserDto) {
     const t = await sequelize.transaction();
@@ -26,7 +25,7 @@ export class AuthService {
       const hashedPassword = await bcrypt.hash(userDto.password, 10);
       const user = await User.create({
         ...userDto,
-        name:userDto.fullName,
+        name: userDto.fullName,
         password: hashedPassword,
       }, { transaction: t });
 
@@ -44,85 +43,79 @@ export class AuthService {
       };
     } catch (error) {
       await t.rollback();
-      handleSequelizeError(error);
+      throw error;
     }
   }
   async login(userDto: CommonUserDto, isAdmin = false) {
-    try {
 
-      const role = await RoleMst.findOne({ where: { name: isAdmin ? 'admin' : 'customer' } });
 
-      let user = await User.findOne({
-        where: { email: userDto.email },
-        include: [
-          {
-            model: UserRoles,
-            attributes: ['roleId'],
-          }
-        ]
-      });
+    const role = await RoleMst.findOne({ where: { name: isAdmin ? 'admin' : 'customer' } });
 
-      if (!user) {
-        throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
-      }
-
-      user = user.toJSON();
-      if (user.userRoles?.roleId !== role.id) {
-        throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
-      }
-
-      const isPasswordValid = await bcrypt.compare(userDto.password, user.password);
-      if (!isPasswordValid) {
-        throw new UnauthorizedException('Invalid credentials');
-      }
-
-      const token = generateToken(user.id, user.userRoles.roleId, this.configService);
-
-      return {
-        statusCode: HttpStatus.OK,
-        message: globalMsg.auth.LOGGED_IN_SUCCESSFUL,
-        data: {
-          user,
-          token,
-          isAdmin: isAdmin ? 'admin' : 'customer'
+    let user = await User.findOne({
+      where: { email: userDto.email },
+      include: [
+        {
+          model: UserRoles,
+          attributes: ['roleId'],
         }
-      };
-    } catch (error) {
-      handleSequelizeError(error);
+      ]
+    });
+
+    if (!user) {
+      throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
     }
+
+    user = user.toJSON();
+    if (user.userRoles?.roleId !== role.id) {
+      throw new ForbiddenException(`User is not authorized as ${isAdmin ? 'admin' : 'customer'}`);
+    }
+
+    const isPasswordValid = await bcrypt.compare(userDto.password, user.password);
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const token = this.commonService.generateToken(user.id, user.userRoles.roleId, this.configService);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: globalMsg.auth.LOGGED_IN_SUCCESSFUL,
+      data: {
+        user,
+        token,
+        isAdmin: isAdmin ? 'admin' : 'customer'
+      }
+    };
   }
 
   async getProfile(id: any) {
-    try {
 
-      const findUser = await User.findByPk(id, {
-        include: [
-          {
-            model: UserRoles,
-            include: [
-              {
-                model: RoleMst,
-                attributes: ['name'],
-              },
-            ], attributes: ['roleId'],
-          }
-        ], attributes: {
-          exclude: ['password']
+
+    const findUser = await User.findByPk(id, {
+      include: [
+        {
+          model: UserRoles,
+          include: [
+            {
+              model: RoleMst,
+              attributes: ['name'],
+            },
+          ], attributes: ['roleId'],
         }
-      },
-      );
-
-      if (!findUser) {
-        throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
+      ], attributes: {
+        exclude: ['password']
       }
+    },
+    );
 
-      return {
-        statusCode: HttpStatus.OK,
-        message: globalMsg.common.FETCH_DATA_SUCCESSFULLY,
-        data: findUser
-      };
-    } catch (error) {
-      handleSequelizeError(error)
+    if (!findUser) {
+      throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
     }
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: globalMsg.common.FETCH_DATA_SUCCESSFULLY,
+      data: findUser
+    };
   }
 }

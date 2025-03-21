@@ -2,10 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { Store } from 'src/models/store.entity';
-import { findEntitiesWithPaginationAndSearch } from 'src/helper/common_functions';
+import { CommonService } from 'src/helper/common.service';
 
 @Injectable()
 export class StoreService {
+  constructor(private readonly commonService: CommonService) { }
   async create(createStoreDto: CreateStoreDto, userId: number) {
     const store = await Store.findOne({ where: { name: createStoreDto.name } });
 
@@ -16,7 +17,7 @@ export class StoreService {
   }
 
   async findAll(paginationDto, userId: number) {
-    const result = await findEntitiesWithPaginationAndSearch(Store, paginationDto, {}, 'AdminStoreModule', userId);
+    const result = await this.commonService.findEntitiesWithPaginationAndSearch(Store, paginationDto, {}, 'AdminStoreModule', userId);
     return result;
   }
 

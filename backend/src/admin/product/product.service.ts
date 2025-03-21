@@ -1,19 +1,20 @@
 import { HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { createEntity, findEntitiesWithPaginationAndSearch } from 'src/helper/common_functions';
 import { Product } from 'src/models/product.entity';
 import globalMsg from 'src/globalMsg';
+import { CommonService } from 'src/helper/common.service';
 
 @Injectable()
 export class ProductService {
+  constructor(private readonly commonService: CommonService) { }
   async createProduct(dto: CreateProductDto, userId) {
     const product = await Product.findOne({ where: { name: dto.name } });
     let newData = { ...dto, userId }
     if (product) {
       throw new NotFoundException(`Product already exists with ${dto.name}`);
     }
-    const createDta = await createEntity(Product, newData);
+    const createDta = await this.commonService.createEntity(Product, newData);
     return {
       statusCode: HttpStatus.OK,
       message: globalMsg.common.CREATED_SUCCESSFULLY,
@@ -24,7 +25,7 @@ export class ProductService {
   }
 
   async findAll(paginationDto, userId: number) {
-    const result = await findEntitiesWithPaginationAndSearch(Product, paginationDto, {}, 'AdminProductsModule', userId);
+    const result = await this.commonService.findEntitiesWithPaginationAndSearch(Product, paginationDto, {}, 'AdminProductsModule', userId);
     return result;
   }
 

@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import configENV from 'src/config/configuration';
+import { AllExceptionsFilter } from './helper/error-handler';
 
 async function bootstrap() {
 
@@ -11,6 +12,8 @@ async function bootstrap() {
   const port = configENV().common.port;
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
+  
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   const config = new DocumentBuilder()
     .setTitle('Ecommerce..')

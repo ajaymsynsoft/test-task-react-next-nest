@@ -6,24 +6,24 @@ import { Store } from 'src/models/store.entity';
 import { Product } from 'src/models/product.entity';
 import { sequelize } from 'src/database/database.config';
 import { CreateOrderDto } from './dto/create-customer.dto';
-import { handleSequelizeError } from 'src/helper/error-handler';
-import { findEntitiesWithPaginationAndSearch } from 'src/helper/common_functions';
+import { CommonService } from 'src/helper/common.service';
 
 @Injectable()
 export class CustomerService {
+  constructor(private readonly commonService: CommonService) { }
 
   async findAllStores(paginationDto, id) {
-    const result = await findEntitiesWithPaginationAndSearch(Store, paginationDto, {},);
+    const result = await this.commonService.findEntitiesWithPaginationAndSearch(Store, paginationDto, {},);
     return result;
   }
 
   async findAllProducts(paginationDto, id) {
-    const result = await findEntitiesWithPaginationAndSearch(Product, paginationDto, {}, 'AllProductsModule');
+    const result = await this.commonService.findEntitiesWithPaginationAndSearch(Product, paginationDto, {}, 'AllProductsModule');
     return result;
   }
 
   async findAllOrders(paginationDto, id) {
-    const result = await findEntitiesWithPaginationAndSearch(Order, paginationDto, {}, 'GetAllOrdersModule', id);
+    const result = await this.commonService.findEntitiesWithPaginationAndSearch(Order, paginationDto, {}, 'GetAllOrdersModule', id);
     return result;
   }
 
@@ -59,7 +59,8 @@ export class CustomerService {
       };
     } catch (error) {
       await t.rollback();
-      handleSequelizeError(error);
+      // handleSequelizeError(error);
+      throw error;
     }
   }
 
@@ -89,7 +90,8 @@ export class CustomerService {
       };
     } catch (error) {
       await t.rollback();
-      handleSequelizeError(error);
+      // handleSequelizeError(error);
+      throw error;
     }
   }
 }

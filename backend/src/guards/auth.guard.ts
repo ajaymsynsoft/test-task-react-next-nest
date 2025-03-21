@@ -10,9 +10,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
-import { getUserByToken } from 'src/helper/common_functions';
 import globalMsg from 'src/globalMsg';
 import { handleAuthGuardError } from 'src/helper/error-handler';
+import { CommonService } from 'src/helper/common.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private configService: ConfigService,
+    private readonly commonService: CommonService
   ) {
     this.jwtSecret = this.configService.get('common.jwt');
 
@@ -42,7 +43,7 @@ export class AuthGuard implements CanActivate {
       if (!payload) {
         throw new UnauthorizedException('Invalid JWT payload');
       }
-      user = await getUserByToken(payload.userId, payload.roleId);
+      user = await this.commonService.getUserByToken(payload.userId, payload.roleId);
 
       if (!user?.data) {
         throw new NotFoundException(globalMsg.errors.USER_NOT_FOUND);
