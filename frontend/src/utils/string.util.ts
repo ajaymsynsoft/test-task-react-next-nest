@@ -48,21 +48,6 @@ export const getStatusColor = (status: string): Color => {
   return color[status] || 'default'
 }
 
-export const removeSpace = (value: string) => value.replaceAll(' ', '')
-
-export const attrDoubleQuoteToSingle = (value: string) => {
-  return value
-    .split('="')
-    .map((item, index) => {
-      if (index === 0) return item
-      const attrEndDoubleQuoteIndex = item.indexOf('"')
-      let temArray = item.split('')
-      temArray[attrEndDoubleQuoteIndex] = "'"
-      item = temArray.join('')
-      return item
-    })
-    .join(`='`)
-}
 
 export const htmlToText = (html: string): string => {
   const tempElement = document.createElement('div')
